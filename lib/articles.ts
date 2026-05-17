@@ -3,7 +3,7 @@ import path from "path";
 import { marked } from "marked";
 
 const AFFILIATE = "https://www.gruns.co/pages/vip?snowball=NICK67621";
-const CTA_HTML = `<a href="${AFFILIATE}" class="cta-link">Try Grüns VIP →</a>`;
+const CTA_HTML = `<a href="${AFFILIATE}" target="_blank" rel="noopener noreferrer" style="display:inline-block;background:#15803d;color:white;font-weight:700;font-size:13px;padding:8px 18px;border-radius:999px;text-decoration:none;margin:4px 0">Try Grüns VIP →</a>`;
 
 export interface Article {
   slug: string;
