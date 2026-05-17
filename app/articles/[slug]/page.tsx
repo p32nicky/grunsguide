@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 const AFFILIATE = "https://www.gruns.co/pages/vip?snowball=NICK67621";
+const AMAZON = "https://amzn.to/4tHu3gL";
 const SITE = "https://grunsguide.vercel.app";
 
 interface Props { params: Promise<{ slug: string }> }
@@ -59,6 +60,20 @@ export default async function ArticlePage({ params }: Props) {
             <li className="text-gray-400">{article.title}</li>
           </ol>
         </nav>
+
+        {/* Amazon product card */}
+        <div className="border border-gray-200 rounded-xl p-4 mb-4 flex items-center gap-4 bg-white shadow-sm">
+          <div className="text-4xl">🐻</div>
+          <div className="flex-1 min-w-0">
+            <p className="text-xs text-gray-500 font-medium uppercase tracking-wide mb-1">Featured Product</p>
+            <p className="font-bold text-gray-900 text-sm leading-snug">Grüns Superfoods Greens Gummies — 28 Daily Packs</p>
+            <p className="text-xs text-gray-500 mt-1">Gut Health · Energy · Immunity · Sugar Free</p>
+          </div>
+          <a href={AMAZON} target="_blank" rel="noopener noreferrer sponsored"
+            className="shrink-0 bg-yellow-400 hover:bg-yellow-300 text-gray-900 text-xs font-bold px-4 py-2 rounded-full transition-colors whitespace-nowrap">
+            View on Amazon →
+          </a>
+        </div>
 
         <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-8 flex items-center justify-between gap-4 flex-wrap">
           <p className="text-sm text-gray-700 font-medium">Get Grüns at VIP price — superfoods in a gummy.</p>
