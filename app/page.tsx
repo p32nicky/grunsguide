@@ -1,6 +1,5 @@
 import { getAllArticles } from "@/lib/articles";
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 
 const AFFILIATE = "https://www.gruns.co/pages/vip?snowball=NICK67621";
@@ -49,27 +48,22 @@ export default function HomePage() {
             </a>
             <p className="text-green-300 text-sm mt-3">Superfoods · Prebiotics · Vitamins · Sugar Free</p>
           </div>
-          <div className="flex-1 flex justify-center gap-4">
-            <Image src="/images/product-bag.jpg" alt="Grüns Superfoods Greens Gummies 28 Pack" width={220} height={280} className="rounded-2xl shadow-xl" />
-            <Image src="/images/product-clean.jpg" alt="Grüns Greens Gummies" width={180} height={280} className="rounded-2xl shadow-xl hidden sm:block" />
+          <div className="flex-1 flex justify-center">
+            <div className="bg-green-600 rounded-3xl p-8 text-center shadow-xl">
+              <div className="text-7xl mb-3">🐻</div>
+              <div className="text-yellow-300 font-bold text-2xl">grüns</div>
+              <div className="text-green-200 text-sm mt-1">Superfoods · Prebiotics · Vitamins</div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Social proof images */}
-      <div className="bg-gray-50 py-12">
-        <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-center mb-8 text-gray-800">Real People, Real Results</h2>
-          <div className="grid grid-cols-2 gap-4">
-            <Image src="/images/product-man.jpg" alt="Man holding Grüns gummies" width={600} height={400} className="rounded-2xl w-full object-cover" />
-            <Image src="/images/product-woman.jpg" alt="Woman with Grüns gummies" width={600} height={400} className="rounded-2xl w-full object-cover" />
-          </div>
-          <div className="text-center mt-8">
-            <a href={AFFILIATE} target="_blank" rel="noopener noreferrer"
-              className="inline-block bg-green-700 hover:bg-green-800 text-white font-bold px-8 py-3 rounded-full text-lg transition-colors">
-              Get Your VIP Discount →
-            </a>
-          </div>
+      {/* Stats bar */}
+      <div className="bg-gray-50 py-10">
+        <div className="max-w-5xl mx-auto px-4 grid grid-cols-3 gap-6 text-center">
+          <div><div className="text-3xl font-bold text-green-700">#1</div><div className="text-sm text-gray-600">Greens Brand</div></div>
+          <div><div className="text-3xl font-bold text-green-700">28</div><div className="text-sm text-gray-600">Daily Packs</div></div>
+          <div><div className="text-3xl font-bold text-green-700">0g</div><div className="text-sm text-gray-600">Sugar</div></div>
         </div>
       </div>
 
