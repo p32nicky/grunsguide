@@ -5,6 +5,7 @@
 
 import Groq from "groq-sdk";
 import Cerebras from "@cerebras/cerebras_cloud_sdk";
+import { marked } from "marked";
 import fs from "fs";
 import path from "path";
 
@@ -428,15 +429,25 @@ Article title: ${topic}`;
       if (!useGroq) console.log(`[${index + 1}/500] Cerebras: ${topic}`);
     }
 
-    const metaMatch = content.match(/META:\s*(.+)/);
-    const kwMatch = content.match(/KEYWORDS:\s*(.+)/);
-    const metaDescription = metaMatch ? metaMatch[1].trim() : `Learn about ${topic} and how Grüns greens gummies can help.`;
-    const keywords = kwMatch ? kwMatch[1].split(",").map((k) => k.trim()) : ["Grüns", "greens gummies", "superfoods", "greens supplement"];
+    // Handle both "META:" and "**Meta Description:**" formats (Cerebras uses markdown)
+    const metaMatch = content.match(/META:\s*(.+)/) || content.match(/\*?\*?Meta Description:?\*?\*?\s*(.+)/i);
+    const kwMatch = content.match(/KEYWORDS:\s*(.+)/) || content.match(/\*?\*?Keywords?:?\*?\*?\s*(.+)/i);
+    const metaDescription = metaMatch ? metaMatch[1].replace(/\*\*/g, "").trim() : `Learn about ${topic} and how Grüns greens gummies can help.`;
+    const keywords = kwMatch ? kwMatch[1].replace(/\*\*/g, "").split(",").map((k) => k.trim()) : ["Grüns", "greens gummies", "superfoods", "greens supplement"];
 
-    const body = content
-      .replace(/META:\s*.+\n?/, "")
-      .replace(/KEYWORDS:\s*.+\n?/, "")
-      .replace(/\[CTA\]/g, `<a href="${AFFILIATE}" class="cta-link">Try Grüns VIP →</a>`);
+    // Strip meta/keywords lines, convert markdown to HTML if needed, replace CTAs
+    let body = content
+      .replace(/META:\s*.+\n?/g, "")
+      .replace(/KEYWORDS:\s*.+\n?/g, "")
+      .replace(/\*?\*?Meta Description:?\*?\*?.*\n?/gi, "")
+      .replace(/\*?\*?Keywords?:?\*?\*?.*\n?/gi, "");
+
+    // Convert markdown to HTML if Cerebras returned markdown
+    if (body.includes("## ") || body.includes("### ") || body.includes("**")) {
+      body = marked.parse(body) as string;
+    }
+
+    body = body.replace(/\[CTA[^\]]*\]/gi, `<a href="${AFFILIATE}" class="cta-link">Try Grüns VIP →</a>`);
 
     const article = { slug, title: topic, metaDescription, keywords, body, generatedAt: new Date().toISOString() };
     fs.writeFileSync(outPath, Buffer.from(JSON.stringify(article, null, 2), "utf-8"));
