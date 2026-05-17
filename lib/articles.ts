@@ -25,6 +25,13 @@ function processBody(raw: string): string {
     .replace(/META:\s*.+\n?/g, "")
     .replace(/KEYWORDS:\s*.+\n?/g, "");
 
+  // Convert Cerebras "H2." / "H3." heading format to HTML
+  body = body
+    .replace(/^H1\.\s*(.+)$/gim, "<h1>$1</h1>")
+    .replace(/^H2\.\s*(.+)$/gim, "<h2>$1</h2>")
+    .replace(/^H3\.\s*(.+)$/gim, "<h3>$1</h3>")
+    .replace(/^H4\.\s*(.+)$/gim, "<h4>$1</h4>");
+
   // Convert markdown to HTML if needed
   if (body.includes("## ") || body.includes("### ") || body.startsWith("# ") || body.includes("**")) {
     body = marked.parse(body) as string;
