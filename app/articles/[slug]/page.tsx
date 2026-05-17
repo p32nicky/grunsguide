@@ -96,6 +96,10 @@ export default async function ArticlePage({ params }: Props) {
             Get VIP Access to Grüns →
           </a>
           <p className="text-xs text-green-300 mt-3">28 daily packs · Sugar free · #1 Greens Brand</p>
+          <a href={AMAZON} target="_blank" rel="noopener noreferrer sponsored"
+            className="inline-block mt-4 bg-yellow-400 hover:bg-yellow-300 text-gray-900 text-sm font-bold px-6 py-2 rounded-full transition-colors">
+            Also Available on Amazon →
+          </a>
         </div>
 
         <div className="mt-8 text-center">
