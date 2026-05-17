@@ -30,12 +30,12 @@ function processBody(raw: string): string {
     body = marked.parse(body) as string;
   }
 
-  // Replace [CTA...] placeholders and strip [/CTA] closing tags + trailing text
+  // Strip [CTA] + any trailing text on same line → replace with just the button
+  body = body.replace(/\[CTA\][^\n<]*/gi, CTA_HTML);
+  // Replace remaining [CTA: ...] variants
   body = body
     .replace(/\[CTA[^\]]*\]/gi, CTA_HTML)
     .replace(/&#x5B;CTA[^&]*?&#x5D;/gi, CTA_HTML)
-    .replace(/\s*Try Gr[uü]ns VIP\s*\[\/CTA\]/gi, "")
-    .replace(/\s*Get Gr[uü]ns Now\s*\[\/CTA\]/gi, "")
     .replace(/\[\/CTA\]/gi, "");
 
   // Remove stray CTA text lines Cerebras adds after [CTA]
