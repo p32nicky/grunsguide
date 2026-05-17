@@ -10,6 +10,7 @@ import fs from "fs";
 import path from "path";
 
 let useGroq = true;
+let useCerebras = true;
 
 const AFFILIATE = "https://www.gruns.co/pages/vip?snowball=NICK67621";
 
@@ -418,16 +419,27 @@ Article title: ${topic}`;
     }
 
     if (!useGroq || !content) {
-      const completion = await cerebras.chat.completions.create({
-        model: "llama3.1-8b",
-        messages: [{ role: "user", content: prompt }],
-        max_tokens: 2000,
-        // @ts-ignore
-        temperature: 0.8,
-      });
-      // @ts-ignore
-      content = (completion.choices[0]?.message?.content as string) ?? "";
-      if (!useGroq) console.log(`[${index + 1}/500] Cerebras: ${topic}`);
+      if (useCerebras) {
+        try {
+          const completion = await cerebras.chat.completions.create({
+            model: "llama3.1-8b",
+            messages: [{ role: "user", content: prompt }],
+            max_tokens: 2000,
+            // @ts-ignore
+            temperature: 0.8,
+          });
+          // @ts-ignore
+          content = (completion.choices[0]?.message?.content as string) ?? "";
+          console.log(`[${index + 1}/500] Cerebras: ${topic}`);
+        } catch (cerebrasErr: unknown) {
+          const msg = String(cerebrasErr);
+          if (msg.includes("429") || msg.includes("rate") || msg.includes("limit")) {
+            console.log("Cerebras rate limited -- switching to Gemini");
+            useCerebras = false;
+          } else { throw cerebrasErr; }
+        }
+      }
+
     }
 
     // Handle both "META:" and "**Meta Description:**" formats (Cerebras uses markdown)
@@ -475,6 +487,8 @@ async function main() {
   const cerebrasKey = process.env.CEREBRAS_API_KEY;
   if (!groqKey && !cerebrasKey) { console.error("ERROR: No API keys in .env.local"); process.exit(1); }
   if (!groqKey) { useGroq = false; console.log("Groq key missing — Cerebras only"); }
+
+  if (!groqKey && !cerebrasKey) { console.error("ERROR: No API keys in .env.local"); process.exit(1); }
 
   const groq = new Groq({ apiKey: groqKey ?? "none" });
   const cerebras = new Cerebras({ apiKey: cerebrasKey ?? "none" });
