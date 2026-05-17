@@ -30,11 +30,24 @@ function processBody(raw: string): string {
     body = marked.parse(body) as string;
   }
 
-  // Replace ALL [CTA...] variants including HTML-encoded ones
+  // Replace [CTA...] placeholders
   body = body
     .replace(/\[CTA[^\]]*\]/gi, CTA_HTML)
-    .replace(/\[CTA[^\[]*?(?:Get|Try)[^\[]*?\]/gi, CTA_HTML)
     .replace(/&#x5B;CTA[^&]*?&#x5D;/gi, CTA_HTML);
+
+  // Remove stray CTA text lines Cerebras adds after [CTA]
+  const ctaTextPatterns = [
+    /^<p>Try Gr[uü]ns VIP\s*<\/p>$/gim,
+    /^<p>Get Gr[uü]ns Now\s*<\/p>$/gim,
+    /^<p>Learn More About Gr[uü]ns\s*<\/p>$/gim,
+    /^<p>Shop Gr[uü]ns\s*<\/p>$/gim,
+    /^<p>Order Gr[uü]ns\s*<\/p>$/gim,
+    /^Try Gr[uü]ns VIP\s*$/gim,
+    /^Get Gr[uü]ns Now\s*$/gim,
+    /^Learn More About Gr[uü]ns\s*$/gim,
+    /^Shop Gr[uü]ns\s*$/gim,
+  ];
+  ctaTextPatterns.forEach((p) => { body = body.replace(p, ""); });
 
   return body;
 }
