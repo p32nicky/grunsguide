@@ -18,19 +18,23 @@ export interface Article {
 const ARTICLES_DIR = path.join(process.cwd(), "content", "articles");
 
 function processBody(raw: string): string {
-  // Strip META/KEYWORDS lines if still present
+  // Strip META/KEYWORDS lines
   let body = raw
     .replace(/\*?\*?Meta Description:?\*?\*?.*\n?/gi, "")
-    .replace(/\*?\*?Keywords?:?\*?\*?.*\n?/gi, "");
+    .replace(/\*?\*?Keywords?:?\*?\*?.*\n?/gi, "")
+    .replace(/META:\s*.+\n?/g, "")
+    .replace(/KEYWORDS:\s*.+\n?/g, "");
 
-  // Replace [CTA] variants
-  body = body.replace(/\[CTA[^\]]*\]/gi, CTA_HTML);
-
-  // If markdown (has ## headers or **bold**), convert to HTML
+  // Convert markdown to HTML first if needed
   if (body.includes("## ") || body.includes("### ") || body.startsWith("# ") || body.includes("**")) {
     body = marked.parse(body) as string;
-    body = body.replace(/\[CTA[^\]]*\]/gi, CTA_HTML);
   }
+
+  // Replace ALL [CTA...] variants including HTML-encoded ones
+  body = body
+    .replace(/\[CTA[^\]]*\]/gi, CTA_HTML)
+    .replace(/\[CTA[^\[]*?(?:Get|Try)[^\[]*?\]/gi, CTA_HTML)
+    .replace(/&#x5B;CTA[^&]*?&#x5D;/gi, CTA_HTML);
 
   return body;
 }
