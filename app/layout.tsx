@@ -20,8 +20,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={geist.variable}>
       <head>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
-        <script dangerouslySetInnerHTML={{ __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-PLACEHOLDER');` }} />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-EHW9Q0YYJN"></script>
+        <script dangerouslySetInnerHTML={{ __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EHW9Q0YYJN');` }} />
       </head>
       <body className="min-h-screen bg-white text-gray-900 antialiased">
         <header className="border-b border-gray-100 bg-white sticky top-0 z-10">
