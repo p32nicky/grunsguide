@@ -25,32 +25,31 @@ function processBody(raw: string): string {
     .replace(/META:\s*.+\n?/g, "")
     .replace(/KEYWORDS:\s*.+\n?/g, "");
 
-  // Convert markdown to HTML first if needed
+  // Convert markdown to HTML if needed
   if (body.includes("## ") || body.includes("### ") || body.startsWith("# ") || body.includes("**")) {
     body = marked.parse(body) as string;
   }
 
-  // Strip [CTA] + any trailing text on same line → replace with just the button
-  body = body.replace(/\[CTA\][^\n<]*/gi, CTA_HTML);
-  // Replace remaining [CTA: ...] variants
+  // Strip any CTA artifacts (old articles)
   body = body
-    .replace(/\[CTA[^\]]*\]/gi, CTA_HTML)
-    .replace(/&#x5B;CTA[^&]*?&#x5D;/gi, CTA_HTML)
-    .replace(/\[\/CTA\]/gi, "");
+    .replace(/\[CTA\][^\n<]*/gi, "")
+    .replace(/\[CTA[^\]]*\]/gi, "")
+    .replace(/\[\/CTA\]/gi, "")
+    .replace(/&#x5B;CTA[^&]*?&#x5D;/gi, "");
 
-  // Remove stray CTA text lines Cerebras adds after [CTA]
-  const ctaTextPatterns = [
-    /^<p>Try Gr[uü]ns VIP\s*<\/p>$/gim,
-    /^<p>Get Gr[uü]ns Now\s*<\/p>$/gim,
-    /^<p>Learn More About Gr[uü]ns\s*<\/p>$/gim,
-    /^<p>Shop Gr[uü]ns\s*<\/p>$/gim,
-    /^<p>Order Gr[uü]ns\s*<\/p>$/gim,
-    /^Try Gr[uü]ns VIP\s*$/gim,
-    /^Get Gr[uü]ns Now\s*$/gim,
-    /^Learn More About Gr[uü]ns\s*$/gim,
-    /^Shop Gr[uü]ns\s*$/gim,
-  ];
-  ctaTextPatterns.forEach((p) => { body = body.replace(p, ""); });
+  // Strip stray CTA text lines
+  body = body
+    .replace(/<p>\s*Try Gr[uü]ns[^<]*<\/p>/gi, "")
+    .replace(/<p>\s*Get Gr[uü]ns[^<]*<\/p>/gi, "")
+    .replace(/<p>\s*Shop Gr[uü]ns[^<]*<\/p>/gi, "")
+    .replace(/<p>\s*Learn More[^<]*<\/p>/gi, "");
+
+  // Inject one CTA button after the second </h2> tag
+  let h2Count = 0;
+  body = body.replace(/<\/h2>/gi, (match) => {
+    h2Count++;
+    return h2Count === 2 ? `</h2>${CTA_HTML}` : match;
+  });
 
   return body;
 }

@@ -384,14 +384,14 @@ REQUIREMENTS:
 - 800-1200 words
 - Helpful, friendly tone
 - Naturally mention "Grüns" throughout
-- Include H1, H2, H3 sections
-- At least 3 [CTA] placeholders
-- First line: META: <120-160 char meta description>
-- Second line: KEYWORDS: keyword1, keyword2, keyword3, keyword4, keyword5
-- Write in HTML with proper h1, h2, h3, p, ul, li tags
-- [CTA] placeholder text: "Try Grüns VIP" or "Get Grüns Now"
-- No actual URLs — use [CTA] only
-- Genuinely helpful content
+- Include H1, H2, H3 sections with short paragraphs
+- First line MUST be: META: <120-160 char meta description>
+- Second line MUST be: KEYWORDS: keyword1, keyword2, keyword3, keyword4, keyword5
+- Write in clean HTML: h1, h2, h3, p, ul, li, strong tags only
+- Do NOT include any buttons, links, CTAs, or calls to action
+- Do NOT include phrases like "Try Grüns", "Get Grüns", "Buy Now", "Click here"
+- Do NOT include any markdown — only HTML tags
+- Genuinely helpful, informative content only
 
 Article title: ${topic}`;
 
