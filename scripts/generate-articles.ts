@@ -391,6 +391,7 @@ REQUIREMENTS:
 - Do NOT include any buttons, links, CTAs, or calls to action
 - Do NOT include phrases like "Try Grüns", "Get Grüns", "Buy Now", "Click here"
 - Do NOT include any markdown — only HTML tags
+- Do NOT include a References, Sources, or Citations section
 - Genuinely helpful, informative content only
 
 Article title: ${topic}`;

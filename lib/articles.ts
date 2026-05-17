@@ -37,6 +37,15 @@ function processBody(raw: string): string {
     body = marked.parse(body) as string;
   }
 
+  // Strip References/Sources/Citations sections Cerebras adds
+  body = body
+    .replace(/<h[123][^>]*>\s*References\s*<\/h[123]>[\s\S]*/gi, "")
+    .replace(/<h[123][^>]*>\s*Sources\s*<\/h[123]>[\s\S]*/gi, "")
+    .replace(/<h[123][^>]*>\s*Citations\s*<\/h[123]>[\s\S]*/gi, "")
+    .replace(/\n##\s*References[\s\S]*/gi, "")
+    .replace(/\n##\s*Sources[\s\S]*/gi, "")
+    .replace(/H2\.\s*References[\s\S]*/gi, "");
+
   // Strip any CTA artifacts (old articles)
   body = body
     .replace(/\[CTA\][^\n<]*/gi, "")
