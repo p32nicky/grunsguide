@@ -142,13 +142,13 @@ export default function HomePage() {
 
       {/* Product Showcase */}
       <div className="max-w-5xl mx-auto px-4 py-12">
-        <div className="overflow-hidden">
+        <div className="overflow-hidden flex justify-center">
           <Image
-            src="/images/gruns-product-showcase.png"
-            alt="Grüns Superfood Greens Gummies - Product Showcase with Ingredients"
-            width={900}
+            src="/images/gruns-hero-product.jpg"
+            alt="Grüns Gummies - Product"
+            width={600}
             height={600}
-            className="w-full h-auto"
+            className="w-full max-w-2xl h-auto"
             priority
           />
         </div>
