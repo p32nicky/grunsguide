@@ -180,16 +180,16 @@ export default function HomePage() {
         {/* What's Packed With */}
         <div className="mb-12">
           <h2 className="text-2xl font-bold mb-8 text-center text-gray-900">What's Packed Inside</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            <div className="text-center"><div className="text-3xl mb-2">🥦</div><p className="text-sm font-semibold text-gray-900">Whole Veggies</p></div>
-            <div className="text-center"><div className="text-3xl mb-2">🍇</div><p className="text-sm font-semibold text-gray-900">Whole Fruits</p></div>
-            <div className="text-center"><div className="text-3xl mb-2">💊</div><p className="text-sm font-semibold text-gray-900">Vitamins & Minerals</p></div>
-            <div className="text-center"><div className="text-3xl mb-2">🧠</div><p className="text-sm font-semibold text-gray-900">Adaptogens</p></div>
-            <div className="text-center"><div className="text-3xl mb-2">🌿</div><p className="text-sm font-semibold text-gray-900">Herbs</p></div>
-            <div className="text-center"><div className="text-3xl mb-2">🛡️</div><p className="text-sm font-semibold text-gray-900">Antioxidants</p></div>
-            <div className="text-center"><div className="text-3xl mb-2">🦠</div><p className="text-sm font-semibold text-gray-900">Prebiotics</p></div>
-            <div className="text-center"><div className="text-3xl mb-2">🍄</div><p className="text-sm font-semibold text-gray-900">Super Mushrooms</p></div>
-            <div className="text-center"><div className="text-3xl mb-2">✨</div><p className="text-sm font-semibold text-gray-900">& More</p></div>
+          <div className="flex flex-wrap justify-center gap-6">
+            <div className="text-center w-24"><div className="text-3xl mb-2">🥦</div><p className="text-sm font-semibold text-gray-900">Whole Veggies</p></div>
+            <div className="text-center w-24"><div className="text-3xl mb-2">🍇</div><p className="text-sm font-semibold text-gray-900">Whole Fruits</p></div>
+            <div className="text-center w-24"><div className="text-3xl mb-2">💊</div><p className="text-sm font-semibold text-gray-900">Vitamins & Minerals</p></div>
+            <div className="text-center w-24"><div className="text-3xl mb-2">🧠</div><p className="text-sm font-semibold text-gray-900">Adaptogens</p></div>
+            <div className="text-center w-24"><div className="text-3xl mb-2">🌿</div><p className="text-sm font-semibold text-gray-900">Herbs</p></div>
+            <div className="text-center w-24"><div className="text-3xl mb-2">🛡️</div><p className="text-sm font-semibold text-gray-900">Antioxidants</p></div>
+            <div className="text-center w-24"><div className="text-3xl mb-2">🦠</div><p className="text-sm font-semibold text-gray-900">Prebiotics</p></div>
+            <div className="text-center w-24"><div className="text-3xl mb-2">🍄</div><p className="text-sm font-semibold text-gray-900">Super Mushrooms</p></div>
+            <div className="text-center w-24"><div className="text-3xl mb-2">✨</div><p className="text-sm font-semibold text-gray-900">& More</p></div>
           </div>
         </div>
 
