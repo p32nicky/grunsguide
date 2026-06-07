@@ -177,6 +177,132 @@ export default function HomePage() {
           </a>
         </div>
 
+        {/* What's Packed With */}
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold mb-8 text-center text-gray-900">What's Packed Inside</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            <div className="text-center"><div className="text-3xl mb-2">🥦</div><p className="text-sm font-semibold text-gray-900">Whole Veggies</p></div>
+            <div className="text-center"><div className="text-3xl mb-2">🍇</div><p className="text-sm font-semibold text-gray-900">Whole Fruits</p></div>
+            <div className="text-center"><div className="text-3xl mb-2">💊</div><p className="text-sm font-semibold text-gray-900">Vitamins & Minerals</p></div>
+            <div className="text-center"><div className="text-3xl mb-2">🧠</div><p className="text-sm font-semibold text-gray-900">Adaptogens</p></div>
+            <div className="text-center"><div className="text-3xl mb-2">🌿</div><p className="text-sm font-semibold text-gray-900">Herbs</p></div>
+            <div className="text-center"><div className="text-3xl mb-2">🛡️</div><p className="text-sm font-semibold text-gray-900">Antioxidants</p></div>
+            <div className="text-center"><div className="text-3xl mb-2">🦠</div><p className="text-sm font-semibold text-gray-900">Prebiotics</p></div>
+            <div className="text-center"><div className="text-3xl mb-2">🍄</div><p className="text-sm font-semibold text-gray-900">Super Mushrooms</p></div>
+            <div className="text-center"><div className="text-3xl mb-2">✨</div><p className="text-sm font-semibold text-gray-900">& More</p></div>
+          </div>
+        </div>
+
+        {/* 3rd Party Testing */}
+        <div className="bg-blue-50 border border-blue-200 rounded-2xl p-8 mb-12">
+          <h2 className="text-2xl font-bold mb-6 text-blue-900 text-center">Clinically & 3rd Party Tested</h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div>
+              <h3 className="font-bold text-gray-900 mb-4">Rigorous Testing for Safety</h3>
+              <p className="text-gray-700 mb-4">Every batch tested for purity, potency, and safety. We screen for:</p>
+              <ul className="space-y-2 text-sm text-gray-700">
+                <li>✓ 70+ different pesticides</li>
+                <li>✓ 4 types of heavy metals</li>
+                <li>✓ 16 different contaminants</li>
+                <li>✓ 9 microbial contaminants</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-bold text-gray-900 mb-4">Clinical Validation</h3>
+              <p className="text-gray-700 mb-4">Clinically tested for nutrient absorption with proven results:</p>
+              <ul className="space-y-2 text-sm text-gray-700">
+                <li>✓ Vitamin C levels improved after 90 days</li>
+                <li>✓ Folate levels improved after 90 days</li>
+                <li>✓ HSA/FSA eligible</li>
+                <li>✓ 30-day money-back guarantee</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* What to Expect Timeline */}
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold mb-8 text-center text-gray-900">What to Expect in 30+ Days</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="border border-gray-200 rounded-lg p-6 text-center">
+              <div className="text-4xl font-bold text-green-700 mb-2">7-14</div>
+              <p className="font-semibold text-gray-900 mb-2">Days</p>
+              <p className="text-sm text-gray-600">Increased energy levels & better digestion noticed by most users</p>
+            </div>
+            <div className="border border-gray-200 rounded-lg p-6 text-center">
+              <div className="text-4xl font-bold text-green-700 mb-2">30</div>
+              <p className="font-semibold text-gray-900 mb-2">Days</p>
+              <p className="text-sm text-gray-600">Improved mental clarity, immunity support, and overall vitality</p>
+            </div>
+            <div className="border border-gray-200 rounded-lg p-6 text-center">
+              <div className="text-4xl font-bold text-green-700 mb-2">90</div>
+              <p className="font-semibold text-gray-900 mb-2">Days</p>
+              <p className="text-sm text-gray-600">Clinically validated improvements in Vitamin C & Folate levels</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Flavor Variants */}
+        <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-8 mb-12">
+          <h2 className="text-2xl font-bold mb-6 text-yellow-900 text-center">Choose Your Flavor</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-white border border-yellow-100 rounded-lg p-6">
+              <h3 className="font-bold text-lg text-gray-900 mb-2">Original</h3>
+              <p className="text-gray-600 mb-4">Where fresh strawberries meets clean greens. Our signature blend that started it all.</p>
+              <p className="text-sm font-semibold text-yellow-700">Available in Low Sugar & Sugar-Free</p>
+            </div>
+            <div className="bg-white border border-yellow-100 rounded-lg p-6">
+              <h3 className="font-bold text-lg text-gray-900 mb-2">Popsicle® Firecracker</h3>
+              <p className="text-gray-600 mb-4">Limited time flavor. Bold, refreshing taste that brings the fun back to daily nutrition.</p>
+              <p className="text-sm font-semibold text-red-600">LIMITED TIME OFFER</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Taste Profile */}
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold mb-8 text-center text-gray-900">Tastes Like a Treat. Works Like a Supplement.</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="text-center">
+              <div className="text-5xl mb-3">🍓</div>
+              <h3 className="font-bold text-gray-900 mb-2">Fresh & Light</h3>
+              <p className="text-sm text-gray-600">Crisp, refreshing flavor without any chalky aftertaste</p>
+            </div>
+            <div className="text-center">
+              <div className="text-5xl mb-3">🍓</div>
+              <h3 className="font-bold text-gray-900 mb-2">Strawberry</h3>
+              <p className="text-sm text-gray-600">Natural strawberry sweetness you'll actually crave</p>
+            </div>
+            <div className="text-center">
+              <div className="text-5xl mb-3">🥬</div>
+              <h3 className="font-bold text-gray-900 mb-2">Sweet Greens</h3>
+              <p className="text-sm text-gray-600">Clean, green taste with just the right balance</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Guarantees */}
+        <div className="bg-green-50 border border-green-200 rounded-2xl p-8 mb-12">
+          <h2 className="text-2xl font-bold mb-8 text-green-900 text-center">Why You'll Love Grüns</h2>
+          <div className="grid md:grid-cols-3 gap-6 text-center">
+            <div>
+              <div className="text-4xl mb-3">💰</div>
+              <h3 className="font-bold text-gray-900 mb-2">30-Day Money-Back</h3>
+              <p className="text-sm text-gray-600">Not satisfied? Full refund, no questions asked.</p>
+            </div>
+            <div>
+              <div className="text-4xl mb-3">⚡</div>
+              <h3 className="font-bold text-gray-900 mb-2">FAST & FREE Shipping</h3>
+              <p className="text-sm text-gray-600">On first order. Convenient delivery to your door.</p>
+            </div>
+            <div>
+              <div className="text-4xl mb-3">🏥</div>
+              <h3 className="font-bold text-gray-900 mb-2">HSA/FSA Eligible</h3>
+              <p className="text-sm text-gray-600">Use your medical savings account with Truemed.</p>
+            </div>
+          </div>
+        </div>
+
         {/* Articles */}
         <h2 className="text-2xl font-bold mb-6">
           {articles.length > 0 ? `${articles.length} Grüns Guides & Reviews` : "Guides Loading..."}
