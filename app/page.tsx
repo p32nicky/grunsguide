@@ -259,6 +259,18 @@ export default function HomePage() {
           </div>
         </div>
 
+        {/* Articles */}
+        <h2 className="text-2xl font-bold mb-6">
+          {articles.length > 0 ? `${articles.length} Grüns Guides & Reviews` : "Guides Loading..."}
+        </h2>
+        {articles.length === 0 ? (
+          <div className="text-center py-16 text-gray-500">
+            <p className="text-lg">Articles being generated. Check back soon.</p>
+          </div>
+        ) : (
+          <ArticlesList initialArticles={articles} categories={categories} />
+        )}
+
         {/* Taste Profile */}
         <div className="mb-12">
           <h2 className="text-2xl font-bold mb-8 text-center text-gray-900">Tastes Like a Treat. Works Like a Supplement.</h2>
@@ -302,18 +314,6 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-
-        {/* Articles */}
-        <h2 className="text-2xl font-bold mb-6">
-          {articles.length > 0 ? `${articles.length} Grüns Guides & Reviews` : "Guides Loading..."}
-        </h2>
-        {articles.length === 0 ? (
-          <div className="text-center py-16 text-gray-500">
-            <p className="text-lg">Articles being generated. Check back soon.</p>
-          </div>
-        ) : (
-          <ArticlesList initialArticles={articles} categories={categories} />
-        )}
 
         {/* Stats & Results */}
         <div className="mt-16 mb-12">
