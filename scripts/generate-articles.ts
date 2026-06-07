@@ -483,6 +483,10 @@ async function main() {
     });
   }
 
+  // Parse CLI args: --limit N
+  const limitArg = process.argv.find(arg => arg.startsWith("--limit"));
+  const limit = limitArg ? parseInt(limitArg.split("=")[1]) : ARTICLE_TOPICS.length;
+
   const groqKey = process.env.GROQ_API_KEY;
   const cerebrasKey = process.env.CEREBRAS_API_KEY;
   if (!groqKey && !cerebrasKey) { console.error("ERROR: No API keys in .env.local"); process.exit(1); }
@@ -494,11 +498,16 @@ async function main() {
   const cerebras = new Cerebras({ apiKey: cerebrasKey ?? "none" });
 
   fs.mkdirSync(path.join("content", "articles"), { recursive: true });
-  console.log(`Generating ${ARTICLE_TOPICS.length} articles...`);
-  for (let i = 0; i < ARTICLE_TOPICS.length; i++) {
+  console.log(`Generating up to ${limit} new articles...`);
+  let generated = 0;
+  for (let i = 0; i < ARTICLE_TOPICS.length && generated < limit; i++) {
+    const existingPath = path.join("content", "articles", `${slugify(ARTICLE_TOPICS[i])}.json`);
+    const existing = fs.existsSync(existingPath) && JSON.parse(fs.readFileSync(existingPath, "utf-8"));
+    if (existing && !existing.error) continue; // Skip already generated
     await generateArticle(groq, cerebras, ARTICLE_TOPICS[i], i);
+    generated++;
   }
-  console.log("Done! All articles generated.");
+  console.log(`Done! Generated ${generated} article(s)`);
 }
 
 main().catch(console.error);
