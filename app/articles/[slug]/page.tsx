@@ -1,10 +1,10 @@
-import { getArticleBySlug, getAllSlugs } from "@/lib/articles";
+import { getArticleBySlug, getAllSlugs, getRelatedArticles } from "@/lib/articles";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 const AFFILIATE = "https://www.gruns.co/pages/vip?snowball=NICK67621";
 const AMAZON = "https://amzn.to/4tHu3gL";
-const SITE = "https://grunsguide.vercel.app";
+const SITE = "https://grunsgummies.site";
 
 interface Props { params: Promise<{ slug: string }> }
 
@@ -100,6 +100,22 @@ export default async function ArticlePage({ params }: Props) {
             className="inline-block mt-4 bg-yellow-400 hover:bg-yellow-300 text-gray-900 text-sm font-bold px-6 py-2 rounded-full transition-colors">
             Also Available on Amazon →
           </a>
+        </div>
+
+        <div className="mt-12 border-t border-gray-200 pt-8">
+          <h2 className="text-xl font-bold mb-6 text-gray-900">Related Guides</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {getRelatedArticles(slug, 3).map((related) => (
+              <a
+                key={related.slug}
+                href={`/articles/${related.slug}`}
+                className="block p-4 border border-gray-200 rounded-lg hover:border-green-500 hover:shadow-md transition-all"
+              >
+                <h3 className="font-semibold text-gray-900 hover:text-green-700 line-clamp-2">{related.title}</h3>
+                <p className="text-xs text-gray-500 mt-2 line-clamp-1">{related.metaDescription}</p>
+              </a>
+            ))}
+          </div>
         </div>
 
         <div className="mt-8 text-center">
