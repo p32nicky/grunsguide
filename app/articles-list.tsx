@@ -83,7 +83,7 @@ export default function ArticlesList({ initialArticles, categories }: { initialA
             <option value="">All Categories</option>
             {categories.map((cat) => (
               <option key={cat} value={cat}>
-                {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                {cat.replace(/-/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
               </option>
             ))}
           </select>
