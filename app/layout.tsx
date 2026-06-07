@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
+import Image from "next/image";
 import "./globals.css";
 
 const geist = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -29,15 +30,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         ` }} />
       </head>
       <body className="min-h-screen bg-white text-gray-900 antialiased">
-        {/* Sticky Bear Sidebar */}
+        {/* Sticky Grüns Sidebar */}
         <div className="hidden lg:block fixed right-6 top-32 z-20 w-56">
-          <div className="bg-green-600 rounded-2xl p-6 text-center shadow-xl sticky top-32">
-            <div className="text-6xl mb-3">🐻</div>
-            <div className="text-yellow-300 font-bold text-2xl mb-2">grüns</div>
-            <p className="text-green-100 text-xs mb-4">Complete Nutrition in a Gummy</p>
+          <div className="bg-white rounded-2xl p-4 text-center shadow-xl sticky top-32">
+            <Image
+              src="/images/gruns-hero-lede.webp"
+              alt="Grüns Gummies"
+              width={200}
+              height={150}
+              className="w-full h-auto rounded-lg mb-3"
+            />
+            <div className="text-yellow-500 font-bold text-2xl mb-2">grüns</div>
+            <p className="text-gray-700 text-xs mb-4 font-semibold">Complete Nutrition in a Gummy</p>
             <a href={AFFILIATE} target="_blank" rel="noopener noreferrer"
-              className="inline-block w-full bg-yellow-400 hover:bg-yellow-300 text-green-900 font-bold py-2 px-3 rounded-full text-sm transition-colors">
-              Shop VIP →
+              className="inline-block w-full bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-3 rounded-full text-sm transition-colors">
+              Get Grüns Now →
             </a>
           </div>
         </div>
