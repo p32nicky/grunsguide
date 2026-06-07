@@ -138,7 +138,7 @@ export function getAllCategories(): string[] {
   });
 
   return Array.from(categories)
-    .filter((c) => c.length > 3 && !/^[:\-=*>]/.test(c))
+    .filter((c) => c.length > 3 && !/^[:\-=*>]/.test(c) && c !== "amazon")
     .sort()
     .slice(0, 20); // Limit to top 20
 }
