@@ -116,3 +116,22 @@ export function getRelatedArticles(slug: string, limit: number = 5): Article[] {
     .slice(0, limit)
     .map((s) => s.article);
 }
+
+export function getAllCategories(): string[] {
+  const all = getAllArticles();
+  const categories = new Set<string>();
+
+  all.forEach((article) => {
+    article.keywords.forEach((keyword) => {
+      // Extract main categories from keywords
+      if (keyword.length > 2 && keyword.length < 50) {
+        categories.add(keyword.toLowerCase());
+      }
+    });
+  });
+
+  return Array.from(categories)
+    .filter((c) => c.length > 3)
+    .sort()
+    .slice(0, 20); // Limit to top 20
+}
