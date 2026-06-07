@@ -102,9 +102,9 @@ export default function HomePage() {
             <Image
               src="/images/gruns-hero-lede.webp"
               alt="Grüns Gummies - Complete Nutrition Guide"
-              width={400}
-              height={300}
-              className="w-full h-auto rounded-lg"
+              width={300}
+              height={225}
+              className="w-full max-w-xs h-auto rounded-lg"
               priority
             />
           </div>
