@@ -98,7 +98,17 @@ export default function HomePage() {
             </a>
             <p className="text-green-300 text-sm mt-3">Superfoods · Prebiotics · Vitamins · Sugar Free</p>
           </div>
-          <div className="flex-1 flex justify-center">
+          <div className="flex-1 flex justify-center lg:hidden">
+            <Image
+              src="/images/gruns-product-showcase.png"
+              alt="Grüns Superfood Greens Gummies"
+              width={300}
+              height={300}
+              className="w-full max-w-sm h-auto"
+              priority
+            />
+          </div>
+          <div className="flex-1 flex justify-center hidden lg:flex">
             <div className="bg-green-600 rounded-3xl p-8 text-center shadow-xl">
               <div className="text-7xl mb-3">🐻</div>
               <div className="text-yellow-300 font-bold text-2xl">grüns</div>
