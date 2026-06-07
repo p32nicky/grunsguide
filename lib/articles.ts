@@ -93,3 +93,26 @@ export function getAllSlugs(): string[] {
   if (!fs.existsSync(ARTICLES_DIR)) return [];
   return fs.readdirSync(ARTICLES_DIR).filter((f) => f.endsWith(".json")).map((f) => f.replace(".json", ""));
 }
+
+export function getRelatedArticles(slug: string, limit: number = 5): Article[] {
+  const current = getArticleBySlug(slug);
+  if (!current) return [];
+
+  const all = getAllSlugs()
+    .map((s) => getArticleBySlug(s))
+    .filter((a) => a && a.slug !== slug) as Article[];
+
+  // Score articles by keyword overlap
+  const scored = all.map((article) => {
+    const overlap = article.keywords.filter((k) =>
+      current.keywords.some((ck) => k.toLowerCase().includes(ck.toLowerCase()) || ck.toLowerCase().includes(k.toLowerCase()))
+    ).length;
+    return { article, score: overlap };
+  });
+
+  return scored
+    .filter((s) => s.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit)
+    .map((s) => s.article);
+}
