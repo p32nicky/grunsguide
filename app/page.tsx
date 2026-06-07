@@ -84,7 +84,7 @@ export default function HomePage() {
 
       {/* Hero */}
       <div className="bg-gradient-to-br from-green-700 to-green-900 text-white">
-        <div className="max-w-5xl mx-auto px-4 py-16 flex flex-col lg:flex-row items-center gap-10">
+        <div className="max-w-5xl mx-auto px-4 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-10">
           <div className="flex-1 text-center lg:text-left">
             <h1 className="text-4xl lg:text-5xl font-bold mb-4 leading-tight">
               The #1 Greens Brand — <span className="text-yellow-300">In Gummy Form</span>
@@ -98,7 +98,7 @@ export default function HomePage() {
             </a>
             <p className="text-green-300 text-sm mt-3">Superfoods · Prebiotics · Vitamins · Sugar Free</p>
           </div>
-          <div className="flex-1 flex justify-center lg:hidden">
+          <div className="flex-1 flex justify-center">
             <Image
               src="/images/gruns-product-showcase.png"
               alt="Grüns Superfood Greens Gummies"
@@ -107,13 +107,6 @@ export default function HomePage() {
               className="w-full max-w-sm h-auto"
               priority
             />
-          </div>
-          <div className="flex-1 flex justify-center hidden lg:flex">
-            <div className="bg-green-600 rounded-3xl p-8 text-center shadow-xl">
-              <div className="text-7xl mb-3">🐻</div>
-              <div className="text-yellow-300 font-bold text-2xl">grüns</div>
-              <div className="text-green-200 text-sm mt-1">Superfoods · Prebiotics · Vitamins</div>
-            </div>
           </div>
         </div>
       </div>
