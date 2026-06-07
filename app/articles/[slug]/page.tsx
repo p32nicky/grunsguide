@@ -1,6 +1,7 @@
 import { getArticleBySlug, getAllSlugs, getRelatedArticles } from "@/lib/articles";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 
 const AFFILIATE = "https://www.gruns.co/pages/vip?snowball=NICK67621";
 const SITE = "https://grunsgummies.site";
@@ -60,7 +61,18 @@ export default async function ArticlePage({ params }: Props) {
           </ol>
         </nav>
 
-<div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-8 flex items-center justify-between gap-4 flex-wrap">
+        <div className="mb-6">
+          <Image
+            src="/images/article-hero.webp"
+            alt={article.title}
+            width={600}
+            height={300}
+            className="w-full max-w-2xl h-auto rounded-lg mx-auto"
+            priority
+          />
+        </div>
+
+        <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-8 flex items-center justify-between gap-4 flex-wrap">
           <p className="text-sm text-gray-700 font-medium">Get Grüns at VIP price — superfoods in a gummy.</p>
           <a href={AFFILIATE} target="_blank" rel="noopener noreferrer"
             className="bg-green-700 hover:bg-green-800 text-white text-sm font-bold px-5 py-2 rounded-full transition-colors whitespace-nowrap">
