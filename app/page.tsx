@@ -1,6 +1,6 @@
-import { getAllArticles } from "@/lib/articles";
+import { getAllArticles, getAllCategories } from "@/lib/articles";
 import type { Metadata } from "next";
-import Link from "next/link";
+import ArticlesList from "./articles-list";
 
 const AFFILIATE = "https://www.gruns.co/pages/vip?snowball=NICK67621";
 
@@ -27,6 +27,7 @@ const orgJsonLd = {
 
 export default function HomePage() {
   const articles = getAllArticles();
+  const categories = getAllCategories();
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
@@ -88,15 +89,7 @@ export default function HomePage() {
             <p className="text-lg">Articles being generated. Check back soon.</p>
           </div>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {articles.map((article) => (
-              <Link key={article.slug} href={`/articles/${article.slug}`}
-                className="block p-5 border border-gray-200 rounded-xl hover:border-green-300 hover:shadow-sm transition-all group">
-                <h3 className="font-semibold text-gray-900 group-hover:text-green-700 leading-snug mb-2">{article.title}</h3>
-                <p className="text-sm text-gray-500 line-clamp-2">{article.metaDescription}</p>
-              </Link>
-            ))}
-          </div>
+          <ArticlesList initialArticles={articles} categories={categories} />
         )}
       </div>
     </>
