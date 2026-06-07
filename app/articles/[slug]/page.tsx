@@ -61,7 +61,9 @@ export default async function ArticlePage({ params }: Props) {
           </ol>
         </nav>
 
-        <div className="mb-6">
+        <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">{article.title}</h1>
+
+        <div className="mb-8">
           <Image
             src="/images/article-hero.webp"
             alt={article.title}
