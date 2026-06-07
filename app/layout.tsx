@@ -34,10 +34,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="hidden lg:block fixed right-6 top-32 z-20 w-56">
           <div className="bg-white rounded-2xl p-4 text-center shadow-xl sticky top-32">
             <Image
-              src="/images/gruns-hero-lede.webp"
+              src="/images/gruns-sticky.jpg"
               alt="Grüns Gummies"
-              width={200}
-              height={150}
+              width={220}
+              height={200}
               className="w-full h-auto rounded-lg mb-3"
             />
             <div className="text-yellow-500 font-bold text-2xl mb-2">grüns</div>
