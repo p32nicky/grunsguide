@@ -123,22 +123,25 @@ export function getAllCategories(): string[] {
 
   all.forEach((article) => {
     article.keywords.forEach((keyword) => {
-      // Clean up keyword - remove special prefix characters
+      // Clean up keyword - remove all special characters
       let clean = keyword
         .replace(/^[:=>\-*]+\s*/, '') // Remove leading special chars
         .replace(/\s*[:=>\-*]+$/, '') // Remove trailing special chars
+        .replace(/<[^>]+>/g, '') // Remove HTML tags
+        .replace(/-->/g, '') // Remove comment endings
+        .replace(/[<>"[\](){};&|]/g, '') // Remove special chars
         .toLowerCase()
         .trim();
 
       // Extract main categories from keywords
-      if (clean.length > 2 && clean.length < 50 && !/^[:\-=*>]/.test(clean)) {
+      if (clean.length > 3 && clean.length < 50 && !/^[:\-=*>]/.test(clean)) {
         categories.add(clean);
       }
     });
   });
 
   return Array.from(categories)
-    .filter((c) => c.length > 3 && !/^[:\-=*>]/.test(c) && c !== "amazon")
+    .filter((c) => c.length > 3 && !/[<>"\[\](){};&|]/.test(c) && c !== "amazon")
     .sort()
     .slice(0, 20); // Limit to top 20
 }
