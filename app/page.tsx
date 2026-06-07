@@ -100,11 +100,11 @@ export default function HomePage() {
           </div>
           <div className="flex-1 flex justify-center">
             <Image
-              src="/images/gruns-product-showcase.png"
-              alt="Grüns Superfood Greens Gummies"
-              width={300}
+              src="/images/gruns-hero-lede.webp"
+              alt="Grüns Gummies - Complete Nutrition Guide"
+              width={400}
               height={300}
-              className="w-full max-w-sm h-auto"
+              className="w-full h-auto rounded-lg"
               priority
             />
           </div>
