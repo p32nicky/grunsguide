@@ -10,7 +10,7 @@ export default function PrivacyPolicy() {
       <h2 className="text-xl font-bold mb-3">Third-Party Links</h2>
       <p className="mb-4">This site contains affiliate links to third-party sites. We are not responsible for their privacy practices.</p>
       <h2 className="text-xl font-bold mb-3">Contact</h2>
-      <p className="mb-4">Questions? Contact us through the information provided on this site.</p>
+      <p className="mb-4">Questions? <a href="mailto:nickdavies100@gmail.com" className="text-green-700 hover:text-green-800 underline font-semibold">Contact us at nickdavies100@gmail.com</a></p>
     </div>
   );
-}
+}

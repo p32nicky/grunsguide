@@ -77,9 +77,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <a href="/affiliate-disclosure" className="underline hover:text-gray-700">Affiliate Disclosure</a>
             <a href="/privacy-policy" className="underline hover:text-gray-700">Privacy Policy</a>
           </p>
-          <p className="mt-3">
-            <strong>Contact:</strong> <a href="mailto:nickdavies100@gmail.com" className="text-green-700 hover:text-green-800 underline">nickdavies100@gmail.com</a>
-          </p>
         </footer>
       </body>
     </html>
