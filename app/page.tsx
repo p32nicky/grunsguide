@@ -125,7 +125,7 @@ export default function HomePage() {
 
       {/* Product Showcase */}
       <div className="max-w-5xl mx-auto px-4 py-12">
-        <div className="rounded-xl overflow-hidden shadow-lg">
+        <div className="overflow-hidden">
           <Image
             src="/images/gruns-product-showcase.png"
             alt="Grüns Superfood Greens Gummies - Product Showcase with Ingredients"
