@@ -100,10 +100,10 @@ export default function HomePage() {
           </div>
           <div className="flex-1 flex justify-center">
             <Image
-              src="/images/gruns-hero-lede.webp"
-              alt="Grüns Gummies - Complete Nutrition Guide"
+              src="/images/gruns-hero-product.jpg"
+              alt="Grüns Gummies - Product"
               width={240}
-              height={180}
+              height={240}
               className="w-full max-w-[240px] h-auto rounded-lg"
               priority
             />
