@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: { siteName: "Grüns Guide", type: "website", locale: "en_US" },
   twitter: { card: "summary_large_image" },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
-  verification: { google: "" },
+  verification: { google: "0MHHKj96WNxC1aqgbOWyWS5d-flt0865XhT2Ly4Lopg" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
