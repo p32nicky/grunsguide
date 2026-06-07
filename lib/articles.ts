@@ -60,6 +60,9 @@ function processBody(raw: string): string {
     .replace(/<p>\s*Shop Gr[uü]ns[^<]*<\/p>/gi, "")
     .replace(/<p>\s*Learn More[^<]*<\/p>/gi, "");
 
+  // Remove first h1 (title is displayed separately in article template)
+  body = body.replace(/<h1[^>]*>.*?<\/h1>/i, "");
+
   // Inject one CTA button after the second </h2> tag
   let h2Count = 0;
   body = body.replace(/<\/h2>/gi, (match) => {
