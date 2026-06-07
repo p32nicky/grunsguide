@@ -125,12 +125,13 @@ export default function HomePage() {
 
       {/* Product Showcase */}
       <div className="max-w-5xl mx-auto px-4 py-12">
-        <div className="relative w-full h-96 rounded-xl overflow-hidden shadow-lg">
+        <div className="rounded-xl overflow-hidden shadow-lg">
           <Image
             src="/images/gruns-product-showcase.jpg"
             alt="Grüns Superfood Greens Gummies - Product Showcase with Ingredients"
-            fill
-            className="object-cover"
+            width={900}
+            height={600}
+            className="w-full h-auto"
             priority
           />
         </div>
