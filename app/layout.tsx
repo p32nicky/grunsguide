@@ -30,10 +30,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-screen bg-white text-gray-900 antialiased">
         {/* Sticky Bear Sidebar */}
-        <div className="hidden lg:block fixed right-6 top-32 z-20">
-          <div className="bg-green-600 rounded-2xl p-4 text-center shadow-lg">
-            <div className="text-5xl mb-2">🐻</div>
-            <div className="text-yellow-300 font-bold text-lg">grüns</div>
+        <div className="hidden lg:block fixed right-6 top-32 z-20 w-56">
+          <div className="bg-green-600 rounded-2xl p-6 text-center shadow-xl sticky top-32">
+            <div className="text-6xl mb-3">🐻</div>
+            <div className="text-yellow-300 font-bold text-2xl mb-2">grüns</div>
+            <p className="text-green-100 text-xs mb-4">Complete Nutrition in a Gummy</p>
+            <a href={AFFILIATE} target="_blank" rel="noopener noreferrer"
+              className="inline-block w-full bg-yellow-400 hover:bg-yellow-300 text-green-900 font-bold py-2 px-3 rounded-full text-sm transition-colors">
+              Shop VIP →
+            </a>
           </div>
         </div>
         <header className="border-b border-gray-100 bg-white sticky top-0 z-10">
