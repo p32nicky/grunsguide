@@ -100,10 +100,10 @@ export default function HomePage() {
           </div>
           <div className="flex-1 flex justify-center">
             <Image
-              src="/images/gruns-hero-product.jpg"
-              alt="Grüns Gummies - Product"
+              src="/images/gruns-hero-lede.webp"
+              alt="Grüns Gummies - Complete Nutrition Guide"
               width={240}
-              height={240}
+              height={180}
               className="w-full max-w-[240px] h-auto rounded-lg"
               priority
             />
@@ -144,10 +144,10 @@ export default function HomePage() {
       <div className="max-w-5xl mx-auto px-4 py-12">
         <div className="overflow-hidden">
           <Image
-            src="/images/gruns-product-showcase.png"
-            alt="Grüns Superfood Greens Gummies - Product Showcase with Ingredients"
+            src="/images/gruns-hero-product.jpg"
+            alt="Grüns Gummies - Product"
             width={900}
-            height={600}
+            height={900}
             className="w-full h-auto"
             priority
           />
