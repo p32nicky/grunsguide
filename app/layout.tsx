@@ -38,15 +38,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </a>
           </div>
         </header>
-        <div className="bg-yellow-50 border-b border-yellow-200 text-center text-xs text-yellow-800 py-2 px-4">
-          <strong>Affiliate Disclosure:</strong> We may earn a commission when you purchase through our links, at no extra cost to you.
-        </div>
         <main>{children}</main>
         <footer className="border-t border-gray-100 mt-16 py-8 text-center text-sm text-gray-500">
           <p>Grüns Guide is an independent review site. We may earn a commission when you use our links.</p>
           <p className="mt-2 flex items-center justify-center gap-4">
             <a href="/" className="underline hover:text-gray-700">All Guides</a>
-            <a href="/affiliate-disclosure" className="underline hover:text-gray-700">Affiliate Disclosure</a>
             <a href="/privacy-policy" className="underline hover:text-gray-700">Privacy Policy</a>
           </p>
         </footer>
