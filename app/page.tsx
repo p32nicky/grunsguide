@@ -146,9 +146,9 @@ export default function HomePage() {
           <Image
             src="/images/gruns-hero-product.jpg"
             alt="Grüns Gummies - Product"
-            width={280}
-            height={280}
-            className="w-full max-w-[280px] h-auto"
+            width={450}
+            height={450}
+            className="w-full max-w-lg h-auto"
             priority
           />
         </div>
