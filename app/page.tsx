@@ -107,17 +107,48 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Stats bar */}
-      <div className="bg-gray-50 py-10">
-        <div className="max-w-5xl mx-auto px-4 grid grid-cols-3 gap-6 text-center">
-          <div><div className="text-3xl font-bold text-green-700">#1</div><div className="text-sm text-gray-600">Greens Brand</div></div>
-          <div><div className="text-3xl font-bold text-green-700">28</div><div className="text-sm text-gray-600">Daily Packs</div></div>
-          <div><div className="text-3xl font-bold text-green-700">0g</div><div className="text-sm text-gray-600">Sugar</div></div>
+      {/* Trust & Stats */}
+      <div className="bg-gray-50 py-12">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="text-center mb-10">
+            <p className="text-lg font-semibold text-gray-900">⭐ 4.8 stars from 100,000+ reviews | 1,000,000+ members</p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div><div className="text-3xl font-bold text-green-700">60+</div><div className="text-sm text-gray-600">Ingredients</div></div>
+            <div><div className="text-3xl font-bold text-green-700">21</div><div className="text-sm text-gray-600">Vitamins & Minerals</div></div>
+            <div><div className="text-3xl font-bold text-green-700">6g</div><div className="text-sm text-gray-600">Prebiotic Fiber</div></div>
+            <div><div className="text-3xl font-bold text-green-700">30-Day</div><div className="text-sm text-gray-600">Money-Back Guarantee</div></div>
+          </div>
         </div>
       </div>
 
-      {/* What is Grüns */}
+      {/* Key Benefits */}
       <div className="max-w-5xl mx-auto px-4 py-12">
+        <h2 className="text-2xl font-bold mb-8 text-center text-gray-900">How Grüns Supports Your Health</h2>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          <div className="text-center">
+            <div className="text-4xl mb-3">🫘</div>
+            <h3 className="font-bold text-gray-900 mb-2">Gut Health</h3>
+            <p className="text-sm text-gray-600">Prebiotics feed good bacteria to boost nutrient absorption and digestion.</p>
+          </div>
+          <div className="text-center">
+            <div className="text-4xl mb-3">🛡️</div>
+            <h3 className="font-bold text-gray-900 mb-2">Immunity</h3>
+            <p className="text-sm text-gray-600">Vitamin C, D, Zinc, antioxidants, and adaptogens support immune function.</p>
+          </div>
+          <div className="text-center">
+            <div className="text-4xl mb-3">⚡</div>
+            <h3 className="font-bold text-gray-900 mb-2">Energy & Body</h3>
+            <p className="text-sm text-gray-600">Support recovery, strength, weight management, and metabolism naturally.</p>
+          </div>
+          <div className="text-center">
+            <div className="text-4xl mb-3">🧠</div>
+            <h3 className="font-bold text-gray-900 mb-2">Brain Health</h3>
+            <p className="text-sm text-gray-600">B-Vitamins, Vitamin C, and Vitamin D support mental clarity and focus.</p>
+          </div>
+        </div>
+
+        {/* What is Grüns */}
         <div className="bg-green-50 border border-green-100 rounded-2xl p-8 mb-12 text-center">
           <h2 className="text-2xl font-bold mb-3 text-green-900">What Is Grüns?</h2>
           <p className="text-gray-700 max-w-2xl mx-auto mb-4">
@@ -140,8 +171,59 @@ export default function HomePage() {
           <ArticlesList initialArticles={articles} categories={categories} />
         )}
 
+        {/* Stats & Results */}
+        <div className="mt-16 mb-12">
+          <h2 className="text-2xl font-bold mb-8 text-center text-gray-900">Why Grüns Works</h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+              <h3 className="text-lg font-bold text-gray-900 mb-4">Filling the Nutrition Gap</h3>
+              <div className="space-y-3">
+                <div>
+                  <div className="text-3xl font-bold text-yellow-600">90%</div>
+                  <p className="text-sm text-gray-600">of U.S. adults don't meet recommended daily nutrient intake</p>
+                </div>
+                <div>
+                  <div className="text-3xl font-bold text-yellow-600">61%</div>
+                  <p className="text-sm text-gray-600">of Americans experience weekly digestive issues</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-green-50 border border-green-200 rounded-lg p-6">
+              <h3 className="text-lg font-bold text-gray-900 mb-4">Real Customer Results (3+ months)</h3>
+              <div className="space-y-3">
+                <div><span className="text-2xl font-bold text-green-700">95%</span><span className="text-sm text-gray-600 ml-2">take Grüns 4-6x per week</span></div>
+                <div><span className="text-2xl font-bold text-green-700">67%</span><span className="text-sm text-gray-600 ml-2">report improved health & well-being</span></div>
+                <div><span className="text-2xl font-bold text-green-700">67%</span><span className="text-sm text-gray-600 ml-2">experience better digestion</span></div>
+                <div><span className="text-2xl font-bold text-green-700">52%</span><span className="text-sm text-gray-600 ml-2">feel more energized daily</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Testimonials */}
+        <div className="mt-12 mb-16">
+          <h2 className="text-2xl font-bold mb-8 text-center text-gray-900">What Customers Say</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="border border-gray-200 rounded-lg p-6">
+              <p className="text-sm text-gray-700 mb-3">"The convenience and taste are huge! Like mixed berries! Plus not having to clean a shaker bottle or extra dishes is absolutely excellent!"</p>
+              <p className="font-semibold text-gray-900">Dustin O.</p>
+              <p className="text-xs text-yellow-600">⭐⭐⭐⭐⭐</p>
+            </div>
+            <div className="border border-gray-200 rounded-lg p-6">
+              <p className="text-sm text-gray-700 mb-3">"These gummies are shockingly delicious, like strawberries! We canceled our subscription but quickly resubscribed because we love Grüns so much!"</p>
+              <p className="font-semibold text-gray-900">Kate S.</p>
+              <p className="text-xs text-yellow-600">⭐⭐⭐⭐⭐</p>
+            </div>
+            <div className="border border-gray-200 rounded-lg p-6">
+              <p className="text-sm text-gray-700 mb-3">"In eight years of testing powders, pills, and potions, there's only one that I liked enough to then spend my own money on: Grüns."</p>
+              <p className="font-semibold text-gray-900">Kevin M.</p>
+              <p className="text-xs text-yellow-600">⭐⭐⭐⭐⭐</p>
+            </div>
+          </div>
+        </div>
+
         {/* FAQ Section */}
-        <div className="mt-16 bg-green-50 border border-green-100 rounded-2xl p-8">
+        <div className="mt-8 bg-green-50 border border-green-100 rounded-2xl p-8">
           <h2 className="text-2xl font-bold mb-8 text-green-900">Frequently Asked Questions</h2>
           <div className="space-y-6 max-w-2xl">
             {[
