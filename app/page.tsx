@@ -127,7 +127,7 @@ export default function HomePage() {
       <div className="max-w-5xl mx-auto px-4 py-12">
         <div className="rounded-xl overflow-hidden shadow-lg">
           <Image
-            src="/images/gruns-product-showcase.jpg"
+            src="/images/gruns-product-showcase.png"
             alt="Grüns Superfood Greens Gummies - Product Showcase with Ingredients"
             width={900}
             height={600}
