@@ -63,13 +63,13 @@ export default async function ArticlePage({ params }: Props) {
 
         <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">{article.title}</h1>
 
-        <div className="mb-8">
+        <div className="mb-8 flex justify-center">
           <Image
             src="/images/article-hero.webp"
             alt={article.title}
-            width={600}
-            height={300}
-            className="w-full max-w-2xl h-auto rounded-lg mx-auto"
+            width={400}
+            height={250}
+            className="w-full max-w-sm h-auto rounded-lg"
             priority
           />
         </div>
