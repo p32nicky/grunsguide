@@ -2352,9 +2352,6 @@ const ARTICLE_TOPICS = [
 
 function slugify(text: string): string {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-
-function slugify(text: string): string {
-  return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
 async function generateArticle(groq: Groq, cerebras: Cerebras, topic: string, index: number): Promise<void> {
@@ -2489,10 +2486,12 @@ async function main() {
   console.log(`Generating up to ${limit} new articles...`);
   let generated = 0;
   for (let i = 0; i < ARTICLE_TOPICS.length && generated < limit; i++) {
-    const existingPath = path.join("content", "articles", `${slugify(ARTICLE_TOPICS[i])}.json`);
+    const topic = ARTICLE_TOPICS[i];
+    if (!topic) continue;
+    const existingPath = path.join("content", "articles", `${slugify(topic)}.json`);
     const existing = fs.existsSync(existingPath) && JSON.parse(fs.readFileSync(existingPath, "utf-8"));
     if (existing && !existing.error) continue; // Skip already generated
-    await generateArticle(groq, cerebras, ARTICLE_TOPICS[i], i);
+    await generateArticle(groq, cerebras, topic, i);
     generated++;
   }
   console.log(`Done! Generated ${generated} article(s)`);
