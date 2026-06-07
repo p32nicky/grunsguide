@@ -1,5 +1,6 @@
 import { getAllArticles, getAllCategories } from "@/lib/articles";
 import type { Metadata } from "next";
+import Image from "next/image";
 import ArticlesList from "./articles-list";
 
 const AFFILIATE = "https://www.gruns.co/pages/vip?snowball=NICK67621";
@@ -119,6 +120,19 @@ export default function HomePage() {
             <div><div className="text-3xl font-bold text-green-700">6g</div><div className="text-sm text-gray-600">Prebiotic Fiber</div></div>
             <div><div className="text-3xl font-bold text-green-700">30-Day</div><div className="text-sm text-gray-600">Money-Back Guarantee</div></div>
           </div>
+        </div>
+      </div>
+
+      {/* Product Showcase */}
+      <div className="max-w-5xl mx-auto px-4 py-12">
+        <div className="relative w-full h-96 rounded-xl overflow-hidden shadow-lg">
+          <Image
+            src="/images/gruns-product-showcase.jpg"
+            alt="Grüns Superfood Greens Gummies - Product Showcase with Ingredients"
+            fill
+            className="object-cover"
+            priority
+          />
         </div>
       </div>
 
