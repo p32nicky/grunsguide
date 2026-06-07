@@ -83,6 +83,50 @@ export default async function ArticlePage({ params }: Props) {
           <p className="text-xs text-green-300 mt-3">28 daily packs · Sugar free · #1 Greens Brand</p>
         </div>
 
+        {/* Taste Profile */}
+        <div className="mt-12 mb-12">
+          <h2 className="text-2xl font-bold mb-8 text-center text-gray-900">Tastes Like a Treat. Works Like a Supplement.</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="text-center">
+              <div className="text-5xl mb-3">🍓</div>
+              <h3 className="font-bold text-gray-900 mb-2">Fresh & Light</h3>
+              <p className="text-sm text-gray-600">Crisp, refreshing flavor without any chalky aftertaste</p>
+            </div>
+            <div className="text-center">
+              <div className="text-5xl mb-3">🍓</div>
+              <h3 className="font-bold text-gray-900 mb-2">Strawberry</h3>
+              <p className="text-sm text-gray-600">Natural strawberry sweetness you'll actually crave</p>
+            </div>
+            <div className="text-center">
+              <div className="text-5xl mb-3">🥬</div>
+              <h3 className="font-bold text-gray-900 mb-2">Sweet Greens</h3>
+              <p className="text-sm text-gray-600">Clean, green taste with just the right balance</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Guarantees */}
+        <div className="bg-green-50 border border-green-200 rounded-2xl p-8 mb-12">
+          <h2 className="text-2xl font-bold mb-8 text-green-900 text-center">Why You'll Love Grüns</h2>
+          <div className="grid md:grid-cols-3 gap-6 text-center">
+            <div>
+              <div className="text-4xl mb-3">💰</div>
+              <h3 className="font-bold text-gray-900 mb-2">30-Day Money-Back</h3>
+              <p className="text-sm text-gray-600">Not satisfied? Full refund, no questions asked.</p>
+            </div>
+            <div>
+              <div className="text-4xl mb-3">⚡</div>
+              <h3 className="font-bold text-gray-900 mb-2">FAST & FREE Shipping</h3>
+              <p className="text-sm text-gray-600">On first order. Convenient delivery to your door.</p>
+            </div>
+            <div>
+              <div className="text-4xl mb-3">🏥</div>
+              <h3 className="font-bold text-gray-900 mb-2">HSA/FSA Eligible</h3>
+              <p className="text-sm text-gray-600">Use your medical savings account with Truemed.</p>
+            </div>
+          </div>
+        </div>
+
         <div className="mt-12 border-t border-gray-200 pt-8">
           <h2 className="text-xl font-bold mb-6 text-gray-900">Related Guides</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
