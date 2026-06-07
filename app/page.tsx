@@ -25,6 +25,53 @@ const orgJsonLd = {
   url: "https://grunsgummies.site",
 };
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What are Grüns greens gummies?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Grüns are comprehensive nutrition supplements that combine superfoods, greens, prebiotics, and vitamins into convenient, great-tasting gummies.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Are Grüns gummies safe?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes, Grüns undergo third-party testing for purity, potency, and safety. They are made with natural ingredients and are free from artificial colors and flavors.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How many Grüns gummies should I take per day?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The recommended serving is one daily pack of Grüns gummies. Each pack contains a full day's worth of superfoods and nutrients.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Are Grüns gummies sugar-free?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes, Grüns gummies are sugar-free and use stevia as a sweetener instead. They contain zero grams of sugar per serving.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I take Grüns with other supplements?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes, Grüns can be taken with most other supplements. However, consult with a healthcare provider if you're taking medications or have specific health concerns.",
+      },
+    },
+  ],
+};
+
 export default function HomePage() {
   const articles = getAllArticles();
   const categories = getAllCategories();
@@ -32,6 +79,7 @@ export default function HomePage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
       {/* Hero */}
       <div className="bg-gradient-to-br from-green-700 to-green-900 text-white">
@@ -91,6 +139,27 @@ export default function HomePage() {
         ) : (
           <ArticlesList initialArticles={articles} categories={categories} />
         )}
+
+        {/* FAQ Section */}
+        <div className="mt-16 bg-green-50 border border-green-100 rounded-2xl p-8">
+          <h2 className="text-2xl font-bold mb-8 text-green-900">Frequently Asked Questions</h2>
+          <div className="space-y-6 max-w-2xl">
+            {[
+              { q: "What are Grüns greens gummies?", a: "Grüns are comprehensive nutrition supplements that combine superfoods, greens, prebiotics, and vitamins into convenient, great-tasting gummies." },
+              { q: "Are Grüns gummies safe?", a: "Yes, Grüns undergo third-party testing for purity, potency, and safety. They are made with natural ingredients and free from artificial colors and flavors." },
+              { q: "How many Grüns should I take per day?", a: "The recommended serving is one daily pack of Grüns gummies. Each pack contains a full day's worth of superfoods and nutrients." },
+              { q: "Are Grüns sugar-free?", a: "Yes, Grüns are sugar-free and use stevia as a sweetener. They contain zero grams of sugar per serving." },
+              { q: "Can I take Grüns with other supplements?", a: "Yes, Grüns can be taken with most other supplements. Consult a healthcare provider if you're on medications." },
+            ].map((item, idx) => (
+              <details key={idx} className="group">
+                <summary className="cursor-pointer font-semibold text-gray-900 hover:text-green-700">
+                  {item.q}
+                </summary>
+                <p className="mt-2 text-gray-700 ml-4 text-sm">{item.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
       </div>
     </>
   );
