@@ -50,16 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </div>
         <header className="border-b border-gray-100 bg-white sticky top-0 z-10">
           <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-            <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-              <Image
-                src="/images/gruns-logo.png"
-                alt="Grüns Guide"
-                width={40}
-                height={40}
-                className="h-10 w-10"
-              />
-              <span className="font-bold text-lg text-green-700">Grüns Guide</span>
-            </a>
+            <a href="/" className="font-bold text-lg text-green-700 hover:text-green-800">🐻 Grüns Guide</a>
             <a href={AFFILIATE} target="_blank" rel="noopener noreferrer"
               className="text-sm bg-green-700 hover:bg-green-800 text-white font-semibold px-4 py-2 rounded-full transition-colors">
               Try Grüns →
