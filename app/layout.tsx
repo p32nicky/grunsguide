@@ -3,7 +3,7 @@ import { Geist } from "next/font/google";
 import "./globals.css";
 
 const geist = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const SITE_URL = "https://grunsguide.vercel.app";
+const SITE_URL = "https://grunsgummies.site";
 const AFFILIATE = "https://www.gruns.co/pages/vip?snowball=NICK67621";
 
 export const metadata: Metadata = {
