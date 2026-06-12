@@ -2407,7 +2407,7 @@ Article title: ${topic}`;
       if (useCerebras) {
         try {
           const completion = await cerebras.chat.completions.create({
-            model: "llama3.1-8b",
+            model: "gpt-oss-120b",
             messages: [{ role: "user", content: prompt }],
             max_tokens: 2000,
             // @ts-ignore
