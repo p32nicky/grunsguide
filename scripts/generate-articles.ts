@@ -2397,34 +2397,15 @@ Article title: ${topic}`;
       } catch (groqErr: unknown) {
         const msg = String(groqErr);
         if (msg.includes("429") || msg.includes("rate_limit") || msg.includes("tokens per day")) {
-          console.log("Groq quota hit -- switching to Cerebras");
-          useGroq = false;
+          console.log("Groq rate limited -- stopping run (will resume next scheduled run)");
+          process.exit(0);
         } else { throw groqErr; }
       }
     }
 
-    if (!useGroq || !content) {
-      if (useCerebras) {
-        try {
-          const completion = await cerebras.chat.completions.create({
-            model: "gpt-oss-120b",
-            messages: [{ role: "user", content: prompt }],
-            max_tokens: 2000,
-            // @ts-ignore
-            temperature: 0.8,
-          });
-          // @ts-ignore
-          content = (completion.choices[0]?.message?.content as string) ?? "";
-          console.log(`[${index + 1}/500] Cerebras: ${topic}`);
-        } catch (cerebrasErr: unknown) {
-          const msg = String(cerebrasErr);
-          if (msg.includes("429") || msg.includes("rate") || msg.includes("limit")) {
-            console.log("Cerebras rate limited -- switching to Gemini");
-            useCerebras = false;
-          } else { throw cerebrasErr; }
-        }
-      }
-
+    if (!content) {
+      console.log("No content generated -- stopping run (will resume next scheduled run)");
+      process.exit(0);
     }
 
     // Handle both "META:" and "**Meta Description:**" formats (Cerebras uses markdown)
