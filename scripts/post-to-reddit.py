@@ -86,7 +86,9 @@ def main():
 
     posted   = load_posted()
     articles = load_articles()
-    pending  = [a for a in articles if a.get("slug") not in posted]
+    # Skip articles that failed generation (have error or empty body)
+    valid    = [a for a in articles if not a.get("error") and a.get("body", "").strip()]
+    pending  = [a for a in valid if a.get("slug") not in posted]
 
     print(f"Articles total:   {len(articles)}")
     print(f"Already posted:   {len(posted)}")
