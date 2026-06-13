@@ -25,6 +25,9 @@ AFFILIATE_LINK = "https://www.gruns.co/pages/vip?snowball=NICK67621"
 ARTICLES_DIR = Path(__file__).parent.parent / "content" / "articles"
 POSTED_FILE  = Path(__file__).parent / "substack-posted.json"
 
+# Pouch product image (uploaded to Substack CDN) — used as cover + in-article
+COVER_IMAGE = "https://substack-post-media.s3.amazonaws.com/public/images/8f34fd40-8009-4da6-81a3-a37d7ff515d8_1000x988.jpeg"
+
 # -- HTML -> ProseMirror ------------------------------------------------------
 
 def text_node(text, marks=None):
@@ -70,6 +73,20 @@ def strip_tags(html):
 def html_to_prosemirror(html, slug):
     """Convert article HTML to a ProseMirror doc."""
     content = []
+    # Product image at top of article
+    content.append({
+        "type": "captionedImage",
+        "content": [{
+            "type": "image2",
+            "attrs": {
+                "src": COVER_IMAGE,
+                "fullscreen": False,
+                "imageSize": "normal",
+                "height": 988,
+                "width": 1000,
+            },
+        }],
+    })
     # Remove the first h1 (title shown separately)
     html = re.sub(r"<h1[^>]*>.*?</h1>", "", html, count=1, flags=re.S)
 
@@ -137,6 +154,7 @@ def post_article(s, article):
         "draft_bylines": [{"id": USER_ID, "is_guest": False}],
         "type": "newsletter",
         "audience": "everyone",
+        "cover_image": COVER_IMAGE,
     }
     r = s.post(f"{PUB_URL}/api/v1/drafts", json=draft_payload)
     r.raise_for_status()
