@@ -81,9 +81,9 @@ def html_to_prosemirror(html, slug):
             "attrs": {
                 "src": COVER_IMAGE,
                 "fullscreen": False,
-                "imageSize": "normal",
-                "height": 988,
-                "width": 1000,
+                "imageSize": "small",
+                "height": 395,
+                "width": 400,
             },
         }],
     })
