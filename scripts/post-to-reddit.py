@@ -7,6 +7,7 @@ Usage: python post-to-reddit.py [--delay 30] [--limit 5]
 
 import json
 import os
+import random
 import time
 import argparse
 from pathlib import Path
@@ -53,6 +54,35 @@ def load_articles():
         except Exception as e:
             print(f"  SKIP {f.name}: {e}")
     return articles
+
+def seo_title(article: dict) -> str:
+    """Build a search-friendly title (people google 'gruns review reddit' etc)."""
+    title = article.get("title", article.get("slug", ""))
+    # Strip clunky generated prefixes
+    for prefix in ("Complete guide: ", "Why Grüns for ", "Grüns solution for ", "Does Grüns help with "):
+        if title.startswith(prefix):
+            title = title[len(prefix):].rstrip("?").strip()
+            title = title[0].upper() + title[1:] if title else title
+            break
+
+    patterns = [
+        "Grüns review: {t}",
+        "{t} — my honest take on Grüns",
+        "{t} | does Grüns actually work?",
+        "My experience with Grüns: {t}",
+        "{t} — what I found after researching Grüns gummies",
+        "Honest Grüns gummies review: {t}",
+        "{t} (Grüns 2026 review)",
+        "Is Grüns worth it? {t}",
+    ]
+    # Seed by slug so the same article always gets the same title
+    rng = random.Random(article.get("slug", ""))
+    chosen = rng.choice(patterns)
+    full = chosen.format(t=title)
+    # Avoid double-Grüns awkwardness when title already starts with Grüns
+    if title.lower().startswith("grüns") or title.lower().startswith("gruns"):
+        full = title + " — honest review"
+    return full[:300]
 
 def build_post_text(article: dict) -> str:
     """Build Reddit post body (selftext) from article data."""
@@ -122,7 +152,7 @@ def main():
 
     for i, article in enumerate(pending):
         slug  = article.get("slug", "")
-        title = article.get("title", slug)
+        title = seo_title(article)
         body  = build_post_text(article)
 
         print(f"[{i+1}/{len(pending)}] Posting: {title}")
