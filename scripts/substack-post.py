@@ -10,6 +10,7 @@ import json
 import re
 import argparse
 from pathlib import Path
+from datetime import datetime
 
 import requests
 
@@ -24,9 +25,16 @@ AFFILIATE_LINK = "https://www.gruns.co/pages/vip?snowball=NICK67621"
 
 ARTICLES_DIR = Path(__file__).parent.parent / "content" / "articles"
 POSTED_FILE  = Path(__file__).parent / "substack-posted.json"
+POSTING_LOG  = Path(__file__).parent / "substack-posting-log.csv"
 
 # Pouch product image (uploaded to Substack CDN) — used as cover + in-article
 COVER_IMAGE = "https://substack-post-media.s3.amazonaws.com/public/images/8f34fd40-8009-4da6-81a3-a37d7ff515d8_1000x988.jpeg"
+
+def log_post(slug: str, title: str, post_url: str):
+    """Log post timestamp for conversion tracking."""
+    with open(POSTING_LOG, "a", encoding="utf-8") as f:
+        timestamp = datetime.now().isoformat()
+        f.write(f"{timestamp},{slug},{title},{post_url}\n")
 
 # -- HTML -> ProseMirror ------------------------------------------------------
 
@@ -205,6 +213,7 @@ def main():
             url = post_article(s, a)
             posted.add(a["slug"])
             POSTED_FILE.write_text(json.dumps(sorted(posted), indent=2), encoding="utf-8")
+            log_post(a["slug"], a["title"], url)
             print(f"OK Posted: {a['title']} -> {url}")
         except Exception as e:
             print(f"FAIL: {a['title']} -- {e}")

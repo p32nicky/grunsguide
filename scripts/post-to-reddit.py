@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Post Grüns articles to r/Grunsgummies on Reddit.
-Tracks posted articles to avoid duplicates.
+Tracks posted articles to avoid duplicates + logs timestamp+title for conversion tracking.
 Usage: python post-to-reddit.py [--delay 30] [--limit 5]
 """
 
@@ -11,6 +11,7 @@ import random
 import time
 import argparse
 from pathlib import Path
+from datetime import datetime
 
 try:
     import praw
@@ -31,6 +32,7 @@ AFFILIATE_LINK = "https://www.gruns.co/pages/vip?snowball=NICK67621"
 
 ARTICLES_DIR   = Path(__file__).parent.parent / "content" / "articles"
 POSTED_FILE    = Path(__file__).parent / "reddit-posted.json"
+POSTING_LOG    = Path(__file__).parent / "reddit-posting-log.csv"
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -44,6 +46,12 @@ def save_posted(posted: set):
         json.dumps(sorted(posted), indent=2),
         encoding="utf-8"
     )
+
+def log_post(slug: str, title: str, reddit_url: str):
+    """Log post timestamp for conversion tracking."""
+    with open(POSTING_LOG, "a", encoding="utf-8") as f:
+        timestamp = datetime.now().isoformat()
+        f.write(f"{timestamp},{slug},{title},{reddit_url}\n")
 
 def load_articles():
     articles = []
@@ -161,7 +169,9 @@ def main():
             submission = sub.submit(title=title, selftext=body)
             posted.add(slug)
             save_posted(posted)
-            print(f"  OK Posted: https://reddit.com{submission.permalink}")
+            reddit_url = f"https://reddit.com{submission.permalink}"
+            log_post(slug, title, reddit_url)
+            print(f"  OK Posted: {reddit_url}")
         except praw.exceptions.RedditAPIException as e:
             print(f"  FAIL Reddit API error: {e}")
             # If rate limited, wait longer
