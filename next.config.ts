@@ -15,6 +15,18 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      {
+        source: "/:path*",
+        destination: "https://grunsgummies.site/:path*",
+        basePath: false,
+        permanent: true, // 301 redirect
+        has: [
+          {
+            type: "host",
+            value: "www.grunsgummies.site",
+          },
+        ],
+      },
     ];
   },
 };
