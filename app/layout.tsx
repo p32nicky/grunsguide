@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import Image from "next/image";
+import ExitPopup from "./components/ExitPopup";
 import "./globals.css";
 
 const geist = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -37,6 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         ` }} />
       </head>
       <body className="min-h-screen bg-white text-gray-900 antialiased">
+        <ExitPopup />
         {/* Sticky Grüns Sidebar */}
         <div className="hidden lg:block fixed right-6 top-32 z-20 w-56">
           <div className="bg-white rounded-2xl p-4 text-center shadow-xl sticky top-32">
