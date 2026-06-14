@@ -9,9 +9,13 @@ export default function ExitPopup() {
   const [shown, setShown] = useState(false);
 
   useEffect(() => {
+    const STORAGE_KEY = 'gruns-exit-popup-shown';
+    const wasShown = localStorage.getItem(STORAGE_KEY);
+
     const handleMouseLeave = (e: MouseEvent) => {
-      if (e.clientY <= 0 && !shown) {
+      if (e.clientY <= 0 && !shown && !wasShown) {
         setShown(true);
+        localStorage.setItem(STORAGE_KEY, 'true');
       }
     };
 
