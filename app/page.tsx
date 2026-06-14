@@ -278,7 +278,7 @@ export default function HomePage() {
           <h2 className="text-2xl font-bold mb-8 text-center text-gray-900">Tastes Like a Treat. Works Like a Supplement.</h2>
           <div className="grid md:grid-cols-3 gap-6">
             <div className="text-center">
-              <div className="text-5xl mb-3">🍓</div>
+              <div className="text-5xl mb-3">💧</div>
               <h3 className="font-bold text-gray-900 mb-2">Fresh & Light</h3>
               <p className="text-sm text-gray-600">Crisp, refreshing flavor without any chalky aftertaste</p>
             </div>
