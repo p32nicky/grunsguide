@@ -21,6 +21,8 @@ OUT_DIR      = Path(_os.environ.get("GRUNS_OUT_DIR", r"C:/Users/nickd/Downloads/
 AFFILIATE    = "https://www.gruns.co/pages/vip?snowball=NICK67621"
 PIPER_VOICE  = Path(_os.environ.get("GRUNS_PIPER_VOICE", str(Path(__file__).resolve().parent / "piper-voices" / "en_US-lessac-medium.onnx")))
 PAD_SECONDS  = 0.7   # silence after each scene's narration before the next
+TARGET_SECONDS = float(_os.environ.get("GRUNS_TARGET_SECONDS", "90"))  # cap video length
+_CPS = 14.5          # approx Piper spoken chars/sec, for pre-synth length estimate
 
 # Gruns scene backgrounds (relative to remotion public/)
 BGS = [
@@ -160,20 +162,38 @@ def build_props(parsed: dict, slug: str) -> dict:
          "backgroundImage": BGS[0], "backgroundOverlay": 0.58},
         f"{title}."))
     bg_i = 1
-    # Intro chunks (full intro)
+    # Duration budget: reserve ~5s hero + ~5s CTA, fill the rest up to TARGET_SECONDS.
+    est = 5.0
+    budget = TARGET_SECONDS - 5.0
+    def est_secs(txt):
+        return len(txt) / _CPS + PAD_SECONDS
+    capped = False
+    # Intro chunks (until budget)
     for j, ch in enumerate(chunk_sentences(intro)):
+        if est + est_secs(ch) > budget:
+            capped = True; break
         scene_specs.append((f"intro{j}",
             {"type": "text_card", "text": ch, "fontSize": 46, "color": "#F8FAFC",
              "backgroundImage": next_bg(), "backgroundOverlay": 0.62}, ch))
-    # Each section: heading scene, then every chunk of its full body
+        est += est_secs(ch)
+    # Each section: heading scene, then body chunks — stop once the budget is hit
     for i, (head, body_txt) in enumerate(parsed["sections"]):
+        if capped:
+            break
+        head_txt = head + "."
+        if est + est_secs(head_txt) > budget:
+            capped = True; break
         scene_specs.append((f"sec{i}h",
             {"type": "text_card", "text": head, "fontSize": 60, "color": "#FACC15",
-             "backgroundImage": next_bg(), "backgroundOverlay": 0.55}, head + "."))
+             "backgroundImage": next_bg(), "backgroundOverlay": 0.55}, head_txt))
+        est += est_secs(head_txt)
         for j, ch in enumerate(chunk_sentences(body_txt)):
+            if est + est_secs(ch) > budget:
+                capped = True; break
             scene_specs.append((f"sec{i}_{j}",
                 {"type": "text_card", "text": ch, "fontSize": 44, "color": "#F8FAFC",
                  "backgroundImage": next_bg(), "backgroundOverlay": 0.64}, ch))
+            est += est_secs(ch)
     # CTA
     scene_specs.append(("cta",
         {"type": "text_card", "text": "Try Grüns VIP today.", "subtitle": "Link in description",
