@@ -39,7 +39,10 @@ BASE_TAGS   = ["gruns", "greens", "greensgummies", "superfood", "nutrition", "we
 def fix_text(s):
     if not s: return ""
     s = s.replace("�", "ü").replace("�", "ü")
-    return re.sub(r"\s+", " ", html.unescape(s)).strip()
+    s = re.sub(r"\s+", " ", html.unescape(s)).strip()
+    # YouTube rejects titles/descriptions containing < or > (invalidDescription/Title)
+    s = s.replace("<", "").replace(">", "")
+    return re.sub(r"\s+", " ", s).strip()
 
 
 def load_lock():

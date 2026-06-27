@@ -65,15 +65,16 @@ jobs:
       - name: Render + upload one video
         run: python video/autopost.py
 
-      - name: Commit posted log
+      - name: Commit posted/failed logs
+        if: always()   # persist skip-list even when the upload step exits non-zero
         run: |
           git config user.name  "gruns-autopost"
           git config user.email "actions@github.com"
-          git add youtube/gruns_posted.json
+          git add youtube/gruns_posted.json youtube/gruns_failed.json 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "nothing to commit"
           else
-            git commit -m "autopost: mark video posted [skip ci]"
+            git commit -m "autopost: update posted/failed logs [skip ci]"
             # rebase-then-push with retries so a remote move mid-run can't drop the record
             for attempt in 1 2 3 4 5; do
               git pull --rebase origin master && git push && { echo "pushed"; break; }

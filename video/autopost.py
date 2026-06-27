@@ -20,21 +20,27 @@ import make_gruns_videos as mk
 import gruns_youtube_upload as up
 
 POSTED_FILE = Path(os.environ.get("GRUNS_POSTED_FILE", str(ROOT / "youtube" / "gruns_posted.json")))
+FAILED_FILE = Path(os.environ.get("GRUNS_FAILED_FILE", str(ROOT / "youtube" / "gruns_failed.json")))
 
 
-def load_posted():
-    if POSTED_FILE.exists():
+def _load_set(p):
+    if p.exists():
         try:
-            return set(json.loads(POSTED_FILE.read_text(encoding="utf-8")))
+            return set(json.loads(p.read_text(encoding="utf-8")))
         except Exception:
             return set()
     return set()
 
 
-def pick_next(posted):
+def _save_set(p, s):
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(json.dumps(sorted(s), indent=1), encoding="utf-8")
+
+
+def pick_next(skip):
     for f in sorted(mk.ARTICLES_DIR.glob("*.json")):
         slug = f.stem
-        if slug in posted:
+        if slug in skip:
             continue
         try:
             a = json.loads(f.read_text(encoding="utf-8", errors="replace"))
@@ -49,8 +55,9 @@ def pick_next(posted):
 
 
 def main():
-    posted = load_posted()
-    slug, parsed = pick_next(posted)
+    posted = _load_set(POSTED_FILE)
+    failed = _load_set(FAILED_FILE)
+    slug, parsed = pick_next(posted | failed)   # skip both done and known-bad
     if not slug:
         print("No pending articles — all caught up.")
         return 0
@@ -58,28 +65,42 @@ def main():
     print(f"=== Rendering: {parsed['title']} ({slug}) ===")
     props = mk.build_props(parsed, slug)
     if not mk.render(slug, props):
-        print(f"[FAIL] render failed for {slug}")
+        # render failure: mark failed so the queue advances next run (no poison pill)
+        failed.add(slug); _save_set(FAILED_FILE, failed)
+        print(f"[FAIL] render failed for {slug} — skip-listed")
         return 1
     mp4 = str(mk.OUT_DIR / f"{slug}.mp4")
     print(f"Rendered {mp4}")
 
     # --- upload (channel-locked) ---
-    lock = up.load_lock()
-    yt = up.service(lock)
-    title, desc, tags = up.meta_for(mp4)
-    body = {"snippet": {"title": title, "description": desc, "tags": tags,
-                        "categoryId": up.CATEGORY},
-            "status": {"privacyStatus": "public", "selfDeclaredMadeForKids": False}}
-    media = MediaFileUpload(mp4, chunksize=-1, resumable=True, mimetype="video/mp4")
-    resp = yt.videos().insert(part="snippet,status", body=body, media_body=media).execute()
-    vid = resp["id"]
-    up.post_first_comment(yt, vid)
-    print(f"[OK] uploaded https://www.youtube.com/watch?v={vid}")
+    try:
+        lock = up.load_lock()
+        yt = up.service(lock)
+        title, desc, tags = up.meta_for(mp4)
+        body = {"snippet": {"title": title, "description": desc, "tags": tags,
+                            "categoryId": up.CATEGORY},
+                "status": {"privacyStatus": "public", "selfDeclaredMadeForKids": False}}
+        media = MediaFileUpload(mp4, chunksize=-1, resumable=True, mimetype="video/mp4")
+        resp = yt.videos().insert(part="snippet,status", body=body, media_body=media).execute()
+        vid = resp["id"]
+        up.post_first_comment(yt, vid)
+        print(f"[OK] uploaded https://www.youtube.com/watch?v={vid}")
+    except Exception as e:
+        msg = str(e)
+        # Quota/rate errors are transient — DON'T skip-list, just retry next run.
+        transient = any(k in msg.lower() for k in ("quota", "ratelimit", "rate limit",
+                        "exceeded", "uploadlimit", "503", "500", "timeout", "timed out"))
+        if transient:
+            print(f"[RETRY] transient upload error for {slug}, will retry next run: {msg[:200]}")
+            return 1
+        # Permanent error (e.g. bad metadata) — skip-list so it can't block the queue.
+        failed.add(slug); _save_set(FAILED_FILE, failed)
+        print(f"[SKIP] permanent upload error for {slug}, skip-listed: {msg[:200]}")
+        return 1
 
     # --- record so we never repost ---
     posted.add(slug)
-    POSTED_FILE.parent.mkdir(parents=True, exist_ok=True)
-    POSTED_FILE.write_text(json.dumps(sorted(posted), indent=1), encoding="utf-8")
+    _save_set(POSTED_FILE, posted)
     print(f"Marked posted: {slug}  (total posted: {len(posted)})")
     return 0
 
