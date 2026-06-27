@@ -1,0 +1,6 @@
+_out/
+piper-voices/
+remotion-composer/node_modules/
+remotion-composer/out/
+remotion-composer/public/gruns-audio/*.wav
+remotion-composer/public/demo-props/_gruns_*.json

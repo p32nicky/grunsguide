@@ -20,13 +20,15 @@ from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 
 HERE       = os.path.dirname(os.path.abspath(__file__))
-TOKEN      = os.path.join(HERE, "gruns_token.json")
-LOCK       = os.path.join(HERE, "channel_lock.json")
-LOG        = os.path.join(HERE, "gruns_uploaded.json")
-VIDEOS     = r"C:/Users/nickd/Downloads/grunsvideos"
-ARTICLES   = r"C:/grunssite/content/articles"
-AFFILIATE  = "https://www.gruns.co/pages/vip?snowball=NICK67621"  # canonical (redirect target)
-SHORT_LINK = "https://grunsgummies.site/vip"  # branded, no-truncation; redirects to AFFILIATE
+TOKEN      = os.environ.get("GRUNS_TOKEN_FILE",  os.path.join(HERE, "gruns_token.json"))
+LOCK       = os.environ.get("GRUNS_LOCK_FILE",   os.path.join(HERE, "channel_lock.json"))
+LOG        = os.environ.get("GRUNS_UPLOAD_LOG",  os.path.join(HERE, "gruns_uploaded.json"))
+VIDEOS     = os.environ.get("GRUNS_OUT_DIR",     r"C:/Users/nickd/Downloads/grunsvideos")
+ARTICLES   = os.environ.get("GRUNS_ARTICLES_DIR", r"C:/grunssite/content/articles")
+AFFILIATE  = "https://www.gruns.co/pages/vip?snowball=NICK67621"  # canonical target
+# Short link (is.gd) -> clean 301 to AFFILIATE, no monetization injection, tag intact.
+# Short enough that YouTube won't truncate it in the description display.
+SHORT_LINK = "https://is.gd/KZ5K0G"
 SCOPES     = ["https://www.googleapis.com/auth/youtube.upload",
               "https://www.googleapis.com/auth/youtube.force-ssl"]
 DAILY_LIMIT = 10
