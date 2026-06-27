@@ -1,0 +1,5 @@
+# Never commit Grüns YouTube secrets
+gruns_client_secret.json
+gruns_token.json
+channel_lock.json
+gruns_uploaded.json
