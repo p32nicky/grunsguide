@@ -68,13 +68,13 @@ def post_to_reddit(title, meta, video_url):
         sub = reddit.subreddit("Grunsgummies")
         t = title.strip()
         post_title = (t if t.lower().startswith(("grüns", "gruns")) else f"Grüns review: {t}")[:300]
-        # Link post -> Reddit embeds the YouTube video preview/player.
+        # LINK post -> Reddit renders the YouTube video card (thumbnail + inline player).
         s = sub.submit(title=post_title, url=video_url)
         print(f"[reddit] posted https://reddit.com{s.permalink}")
-        # Affiliate link + summary as the first comment (link posts can't have body text).
+        # Affiliate link in the first comment. Use the DIRECT gruns.co URL — Reddit
+        # bans URL shorteners (is.gd) as "Banned Domain".
         try:
-            comment = (f"{meta}\n\n" if meta else "") + f"Try Grüns VIP → {up.SHORT_LINK}"
-            s.reply(comment)
+            s.reply(f"Try Grüns VIP → {up.AFFILIATE}")
             print("[reddit] + first comment posted")
         except Exception as ce:
             print(f"[reddit] comment failed (non-fatal): {str(ce)[:140]}")
