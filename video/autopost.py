@@ -50,14 +50,37 @@ def pick_next(skip):
             continue
         parsed = mk.parse_article(a)
         if parsed["title"]:
-            return slug, parsed
-    return None, None
+            return slug, parsed, a
+    return None, None, None
+
+
+def post_to_reddit(title, meta, video_url):
+    """Post the new video to r/Grunsgummies. Non-fatal — never blocks the run."""
+    cid = os.environ.get("REDDIT_CLIENT_ID"); csec = os.environ.get("REDDIT_CLIENT_SECRET")
+    user = os.environ.get("REDDIT_USERNAME"); pw = os.environ.get("REDDIT_PASSWORD")
+    if not all([cid, csec, user, pw]):
+        print("[reddit] credentials not set — skipping reddit post")
+        return
+    try:
+        import praw
+        reddit = praw.Reddit(client_id=cid, client_secret=csec, username=user,
+                             password=pw, user_agent=f"grunsgummies-poster/1.0 by {user}")
+        sub = reddit.subreddit("Grunsgummies")
+        t = title.strip()
+        post_title = (t if t.lower().startswith(("grüns", "gruns")) else f"Grüns review: {t}")[:300]
+        body = (f"{meta}\n\n"
+                f"▶️ Watch: {video_url}\n\n"
+                f"---\n*Try Grüns VIP →* {up.SHORT_LINK}")
+        s = sub.submit(title=post_title, selftext=body)
+        print(f"[reddit] posted https://reddit.com{s.permalink}")
+    except Exception as e:
+        print(f"[reddit] post failed (non-fatal): {str(e)[:200]}")
 
 
 def main():
     posted = _load_set(POSTED_FILE)
     failed = _load_set(FAILED_FILE)
-    slug, parsed = pick_next(posted | failed)   # skip both done and known-bad
+    slug, parsed, raw = pick_next(posted | failed)   # skip both done and known-bad
     if not slug:
         print("No pending articles — all caught up.")
         return 0
@@ -84,7 +107,11 @@ def main():
         resp = yt.videos().insert(part="snippet,status", body=body, media_body=media).execute()
         vid = resp["id"]
         up.post_first_comment(yt, vid)
-        print(f"[OK] uploaded https://www.youtube.com/watch?v={vid}")
+        watch = f"https://www.youtube.com/watch?v={vid}"
+        print(f"[OK] uploaded {watch}")
+        # Cross-post the new video to r/Grunsgummies (non-fatal)
+        post_to_reddit(up.fix_text(raw.get("title", parsed["title"])),
+                       up.fix_text(raw.get("metaDescription", "")), watch)
     except Exception as e:
         msg = str(e)
         # Quota/rate errors are transient — DON'T skip-list, just retry next run.

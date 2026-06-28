@@ -46,7 +46,7 @@ jobs:
         run: npm install --no-audit --no-fund
 
       - name: Install Python deps
-        run: pip install piper-tts google-auth google-auth-oauthlib google-api-python-client requests
+        run: pip install piper-tts google-auth google-auth-oauthlib google-api-python-client requests praw
 
       - name: Ensure Piper voice (committed in repo; download only if missing)
         run: |
@@ -69,6 +69,11 @@ jobs:
           python -c "import json;[json.load(open('youtube/'+f)) for f in ('gruns_token.json','channel_lock.json')];print('secrets parse OK')"
 
       - name: Render + upload one video
+        env:
+          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+          REDDIT_USERNAME: ${{ secrets.REDDIT_USERNAME }}
+          REDDIT_PASSWORD: ${{ secrets.REDDIT_PASSWORD }}
         run: python video/autopost.py
 
       - name: Commit posted/failed logs
