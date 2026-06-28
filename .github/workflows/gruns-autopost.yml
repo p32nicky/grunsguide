@@ -70,7 +70,9 @@ jobs:
         run: |
           git config user.name  "gruns-autopost"
           git config user.email "actions@github.com"
-          git add youtube/gruns_posted.json youtube/gruns_failed.json 2>/dev/null || true
+          # stage each separately — a missing file must NOT block staging the other
+          git add youtube/gruns_posted.json 2>/dev/null || true
+          git add youtube/gruns_failed.json 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "nothing to commit"
           else
