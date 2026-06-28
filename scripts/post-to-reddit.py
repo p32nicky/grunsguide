@@ -20,11 +20,15 @@ except ImportError:
     exit(1)
 
 # ── Config ──────────────────────────────────────────────────────────────────
-REDDIT_CLIENT_ID     = "***REMOVED***"
-REDDIT_CLIENT_SECRET = "***REMOVED***"
-REDDIT_USERNAME      = "Basic-Strain-6922"
-REDDIT_PASSWORD      = "***REMOVED***"
-REDDIT_USER_AGENT    = "grunsgummies-poster/1.0 by Basic-Strain-6922"
+REDDIT_CLIENT_ID     = os.environ.get("REDDIT_CLIENT_ID", "")
+REDDIT_CLIENT_SECRET = os.environ.get("REDDIT_CLIENT_SECRET", "")
+REDDIT_USERNAME      = os.environ.get("REDDIT_USERNAME", "")
+REDDIT_PASSWORD      = os.environ.get("REDDIT_PASSWORD", "")
+REDDIT_USER_AGENT    = f"grunsgummies-poster/1.0 by {REDDIT_USERNAME or 'gruns'}"
+
+if not all([REDDIT_CLIENT_ID, REDDIT_CLIENT_SECRET, REDDIT_USERNAME, REDDIT_PASSWORD]):
+    raise SystemExit("Set REDDIT_CLIENT_ID / REDDIT_CLIENT_SECRET / REDDIT_USERNAME / "
+                     "REDDIT_PASSWORD environment variables (do not hardcode credentials).")
 
 SUBREDDIT      = "Grunsgummies"
 SITE_BASE      = "https://grunsgummies.site"
