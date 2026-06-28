@@ -48,12 +48,18 @@ jobs:
       - name: Install Python deps
         run: pip install piper-tts google-auth google-auth-oauthlib google-api-python-client requests
 
-      - name: Download Piper voice
+      - name: Ensure Piper voice (committed in repo; download only if missing)
         run: |
-          mkdir -p video/piper-voices
-          cd video/piper-voices
-          python -m piper.download_voices en_US-lessac-medium
-          ls -la
+          if [ -f video/piper-voices/en_US-lessac-medium.onnx ]; then
+            echo "voice present in repo — skipping download"
+          else
+            mkdir -p video/piper-voices && cd video/piper-voices
+            for attempt in 1 2 3; do
+              python -m piper.download_voices en_US-lessac-medium && break
+              echo "download attempt $attempt failed (rate limit?), retrying..."; sleep 20
+            done
+          fi
+          ls -la video/piper-voices/
 
       - name: Write YouTube secrets
         run: |
