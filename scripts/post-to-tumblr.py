@@ -19,10 +19,19 @@ except ImportError:
     exit(1)
 
 # -- Config -------------------------------------------------------------------
-OAUTH_CONSUMER_KEY = "0DSLOcnqeLENlBKT1FWYU6gNya7O9ua7zJZi7d1Qn6LL8WpHj9"
-OAUTH_CONSUMER_SECRET = "oTWpPau5X5VvxAjv6AxhcWuvwenQQNRIIGIojhoj5dn6PXHXL0"
-
 BLOG_NAME = "grunsgummies.tumblr.com"
+TOKEN_FILE = Path(__file__).parent / "tumblr-tokens.json"
+
+# Load tokens
+if not TOKEN_FILE.exists():
+    print(f"ERROR: {TOKEN_FILE} not found. Run tumblr-oauth-setup.py first.")
+    exit(1)
+
+tokens = json.loads(TOKEN_FILE.read_text(encoding="utf-8"))
+OAUTH_CONSUMER_KEY = tokens["consumer_key"]
+OAUTH_CONSUMER_SECRET = tokens["consumer_secret"]
+OAUTH_USER_TOKEN = tokens["user_token"]
+OAUTH_USER_SECRET = tokens["user_secret"]
 SITE_BASE = "https://grunsgummies.site"
 AFFILIATE_LINK = "https://www.gruns.co/pages/vip?snowball=NICK67621"
 
@@ -90,12 +99,12 @@ def main():
             print(f"WOULD POST: {a['title']}")
         return
 
-    # Connect to Tumblr (no user token needed for app auth, will use OAuth)
+    # Connect to Tumblr with user auth
     client = pytumblr.TumblrRestClient(
         OAUTH_CONSUMER_KEY,
         OAUTH_CONSUMER_SECRET,
-        # For 3-legged OAuth, would need user_token and user_secret
-        # For now, using consumer-only (application-level auth)
+        OAUTH_USER_TOKEN,
+        OAUTH_USER_SECRET
     )
 
     for a in batch:
