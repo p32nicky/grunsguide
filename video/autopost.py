@@ -114,9 +114,9 @@ def main():
         up.post_first_comment(yt, vid)
         watch = f"https://www.youtube.com/watch?v={vid}"
         print(f"[OK] uploaded {watch}")
-        # Cross-post the new video to r/Grunsgummies (non-fatal)
-        post_to_reddit(up.fix_text(raw.get("title", parsed["title"])),
-                       up.fix_text(raw.get("metaDescription", "")), watch)
+        # Reddit cross-post DISABLED (2026-06-28). To re-enable, uncomment below.
+        # post_to_reddit(up.fix_text(raw.get("title", parsed["title"])),
+        #                up.fix_text(raw.get("metaDescription", "")), watch)
     except Exception as e:
         msg = str(e)
         # Quota/rate errors are transient — DON'T skip-list, just retry next run.
