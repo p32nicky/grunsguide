@@ -1,143 +1,126 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-Post Grüns articles to Tumblr (grunsgummies blog).
-Posts ONE article per run (schedule every 30 min).
-Tracks posted articles to avoid duplicates.
-Usage: python post-to-tumblr.py [--limit 1] [--dry-run]
+Post Grüns articles to Tumblr (grunsgummies.tumblr.com).
+Uses OAuth1 + photo posts (like london food tours).
+Posts 1/run on schedule (hourly = 24 posts/day).
 """
-
 import json
 import re
-import argparse
+import os
+import sys
+import requests
+from requests_oauthlib import OAuth1
 from pathlib import Path
 from datetime import datetime
 
-try:
-    import pytumblr
-except ImportError:
-    print("ERROR: pytumblr not installed. Run: pip install pytumblr")
-    exit(1)
+# Force UTF-8 encoding
+if sys.stdout.encoding != 'utf-8':
+    sys.stdout = open(sys.stdout.fileno(), mode='w', encoding='utf-8', buffering=1)
 
-# -- Config -------------------------------------------------------------------
-BLOG_NAME = "grunsgummies.tumblr.com"
-TOKEN_FILE = Path(__file__).parent / "tumblr-tokens.json"
+BLOG = "grunsgummies.tumblr.com"
+API_URL = f"https://api.tumblr.com/v2/blog/{BLOG}/post"
 
 # Load tokens
+TOKEN_FILE = Path(__file__).parent / "tumblr-tokens.json"
 if not TOKEN_FILE.exists():
-    print(f"ERROR: {TOKEN_FILE} not found. Run tumblr-oauth-setup.py first.")
+    print("ERROR: tumblr-tokens.json not found")
     exit(1)
 
-tokens = json.loads(TOKEN_FILE.read_text(encoding="utf-8"))
-OAUTH_CONSUMER_KEY = tokens["consumer_key"]
-OAUTH_CONSUMER_SECRET = tokens["consumer_secret"]
-OAUTH_USER_TOKEN = tokens["user_token"]
-OAUTH_USER_SECRET = tokens["user_secret"]
-SITE_BASE = "https://grunsgummies.site"
-AFFILIATE_LINK = "https://www.gruns.co/pages/vip?snowball=NICK67621"
+tokens = json.loads(TOKEN_FILE.read_text())
+CONSUMER_KEY = tokens["consumer_key"]
+CONSUMER_SECRET = tokens["consumer_secret"]
+TOKEN = tokens["user_token"]
+TOKEN_SECRET = tokens["user_secret"]
+
+SITE_BASE = "https://grunssite.vercel.app"
+AFFILIATE = "https://www.gruns.co/pages/vip?snowball=NICK67621"
 
 ARTICLES_DIR = Path(__file__).parent.parent / "content" / "articles"
 POSTED_FILE = Path(__file__).parent / "tumblr-posted.json"
-POSTING_LOG = Path(__file__).parent / "tumblr-posting-log.csv"
+LOG_FILE = Path(__file__).parent / "tumblr-posting-log.csv"
 
-# -- Helpers ------------------------------------------------------------------
+def _auth():
+    return OAuth1(CONSUMER_KEY, CONSUMER_SECRET, TOKEN, TOKEN_SECRET)
+
+def _strip_html(text: str) -> str:
+    return re.sub(r"<[^>]+>", "", text or "").strip()
 
 def load_posted() -> set:
     if POSTED_FILE.exists():
-        return set(json.loads(POSTED_FILE.read_text(encoding="utf-8")))
+        return set(json.loads(POSTED_FILE.read_text(encoding='utf-8')))
     return set()
 
 def save_posted(posted: set):
-    POSTED_FILE.write_text(
-        json.dumps(sorted(posted), indent=2),
-        encoding="utf-8"
-    )
+    POSTED_FILE.write_text(json.dumps(sorted(posted), indent=2, ensure_ascii=False), encoding='utf-8')
 
-def log_post(slug: str, title: str, post_url: str):
-    """Log post timestamp for conversion tracking."""
-    with open(POSTING_LOG, "a", encoding="utf-8") as f:
-        timestamp = datetime.now().isoformat()
-        f.write(f"{timestamp},{slug},{title},{post_url}\n")
+def log_post(slug: str, title: str, url: str):
+    with open(LOG_FILE, "a", encoding='utf-8') as f:
+        ts = datetime.now().isoformat()
+        f.write(f"{ts},{slug},{title},{url}\n")
 
 def load_articles():
     articles = []
     for f in sorted(ARTICLES_DIR.glob("*.json")):
         try:
-            data = json.loads(f.read_text(encoding="utf-8"))
+            data = json.loads(f.read_text(encoding='utf-8'))
             articles.append(data)
         except Exception as e:
-            print(f"  SKIP {f.name}: {e}")
+            pass
     return articles
 
-def strip_tags(html):
-    text = re.sub(r"<[^>]+>", "", html)
-    text = text.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
-    return text.strip()
+def post_article(article: dict) -> dict:
+    """Post article to Tumblr as text post. Returns {id, url} or {error}."""
+    title = article.get("title", "")
+    body = article.get("body", "")
+    slug = article.get("slug", "")
 
-# -- Main ---------------------------------------------------------------------
+    # Body already has title in it, just use as-is
+    caption = body
+    caption += f"<br/><br/><hr/><br/>"
+    caption += f"<a href=\"{AFFILIATE}\"><b>Try Grüns VIP →</b></a>"
+
+    data = {
+        "type": "text",
+        "body": caption,
+        "tags": "gruns,greens,gummies,supplement,health"
+    }
+
+    try:
+        r = requests.post(API_URL, data=data, auth=_auth(), timeout=15)
+        if r.status_code in (200, 201):
+            post_id = r.json().get("response", {}).get("id", "")
+            url = f"https://{BLOG}/post/{post_id}"
+            return {"id": post_id, "url": url}
+        return {"error": r.text[:300]}
+    except Exception as e:
+        return {"error": str(e)}
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--limit", type=int, default=1)
-    parser.add_argument("--dry-run", action="store_true")
-    args = parser.parse_args()
-
     posted = load_posted()
     articles = load_articles()
     valid = [a for a in articles if not a.get("error") and a.get("body", "").strip()]
     pending = [a for a in valid if a.get("slug") not in posted]
 
-    print(f"Valid articles: {len(articles)} | Posted: {len(posted)} | Pending: {len(pending)}")
+    print(f"Total: {len(articles)} | Posted: {len(posted)} | Pending: {len(pending)}")
 
     if not pending:
-        print("Nothing to post.")
+        print("All posted!")
         return
 
-    batch = pending[:args.limit]
+    # Post 1
+    article = pending[0]
+    result = post_article(article)
 
-    if args.dry_run:
-        for a in batch:
-            print(f"WOULD POST: {a['title']}")
-        return
-
-    # Connect to Tumblr with user auth
-    client = pytumblr.TumblrRestClient(
-        OAUTH_CONSUMER_KEY,
-        OAUTH_CONSUMER_SECRET,
-        OAUTH_USER_TOKEN,
-        OAUTH_USER_SECRET
-    )
-
-    for a in batch:
-        try:
-            title = a["title"]
-            body = a.get("body", "").strip()
-            slug = a["slug"]
-
-            # Strip HTML from body for Tumblr text post
-            body_text = strip_tags(body)[:500] + "..."
-
-            # Build post content
-            post_body = f"{body_text}\n\nRead full article: {SITE_BASE}/articles/{slug}\n\nTry Grüns VIP: {AFFILIATE_LINK}"
-
-            # Post to Tumblr
-            response = client.create_text(
-                BLOG_NAME,
-                state="published",
-                title=title,
-                body=post_body,
-                tags=["gruns", "greens", "gummies", "supplement"]
-            )
-
-            if response.get("id"):
-                posted.add(slug)
-                save_posted(posted)
-                post_url = f"https://{BLOG_NAME}/post/{response['id']}"
-                log_post(slug, title, post_url)
-                print(f"OK Posted: {title} -> {post_url}")
-            else:
-                print(f"FAIL: {title} -- {response}")
-        except Exception as e:
-            print(f"FAIL: {a['title']} -- {e}")
+    if "id" in result:
+        posted.add(article["slug"])
+        save_posted(posted)
+        log_post(article["slug"], article["title"], result["url"])
+        print(f"[OK] Posted: {article['title']}")
+        print(f"  URL: {result['url']}")
+    else:
+        print(f"[FAIL] Failed: {article['title']}")
+        print(f"  Error: {result.get('error', '?')}")
 
 if __name__ == "__main__":
     main()
