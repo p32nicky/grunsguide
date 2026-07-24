@@ -18,18 +18,6 @@ const nextConfig: NextConfig = {
         has: [
           {
             type: "host",
-            value: "grunsguide.vercel.app",
-          },
-        ],
-      },
-      {
-        source: "/:path*",
-        destination: "https://grunsgummies.site/:path*",
-        basePath: false,
-        permanent: true, // 301 redirect
-        has: [
-          {
-            type: "host",
             value: "www.grunsgummies.site",
           },
         ],
