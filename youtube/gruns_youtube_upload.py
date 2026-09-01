@@ -29,6 +29,8 @@ AFFILIATE  = "https://www.gruns.co/pages/vip?snowball=NICK67621"  # canonical ta
 # Short link (is.gd) -> clean 301 to AFFILIATE, no monetization injection, tag intact.
 # Short enough that YouTube won't truncate it in the description display.
 SHORT_LINK = "https://is.gd/KZ5K0G"
+# Book (Barnes & Noble), promoted in the description + pinned comment.
+BOOK_LINK  = "https://www.barnesandnoble.com/w/glp-1-weight-loss-journey-samantha-lewis/1148827948?ean=2940183439311"
 SCOPES     = ["https://www.googleapis.com/auth/youtube.upload",
               "https://www.googleapis.com/auth/youtube.force-ssl"]
 DAILY_LIMIT = 10
@@ -75,6 +77,7 @@ def service(lock):
 
 def post_first_comment(yt, video_id):
     text = (f"\U0001f449 Try Grüns VIP (greens gummies): {SHORT_LINK}\n\n"
+            f"\U0001f4d5 Book - GLP-1 Weight Loss Journey: {BOOK_LINK}\n\n"
             "Affiliate link — we may earn a small commission at no extra cost to you.")
     try:
         yt.commentThreads().insert(part="snippet", body={"snippet": {
@@ -102,6 +105,7 @@ def meta_for(mp4):
     # Affiliate link FIRST so it stays above YouTube's "...more" fold and never
     # gets truncated in the collapsed description preview.
     desc = (f"\U0001f449 Try Grüns VIP (greens gummies): {SHORT_LINK}\n\n"
+            f"\U0001f4d5 Book - GLP-1 Weight Loss Journey: {BOOK_LINK}\n\n"
             f"{title}\n\n{meta}\n\n"
             "Affiliate link — we may earn a small commission at no extra cost to you.\n"
             "This is general information, not medical advice.\n\n"
