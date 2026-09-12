@@ -11,6 +11,13 @@ const nextConfig: NextConfig = {
         permanent: false, // 302 — keep flexible if the affiliate URL changes
       },
       {
+        // Cloaked cruise affiliate link — Reddit hard-blocks dpbolvw.net directly,
+        // but allows vercel.app, so cruise posts link here and redirect through.
+        source: "/cruise",
+        destination: "https://www.dpbolvw.net/click-1-17037666",
+        permanent: false,
+      },
+      {
         source: "/:path*",
         destination: "https://grunsgummies.site/:path*",
         basePath: false,
