@@ -2354,6 +2354,72 @@ function slugify(text: string): string {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
+// ---------------------------------------------------------------------------
+// Title hygiene.
+//
+// ARTICLE_TOPICS carries four near-identical phrasings of every topic
+// ("Complete guide: X and Grüns", "Why Grüns for X?", "Does Grüns help with
+// X?", "Grüns solution for X"). Generating all four gave us up to 10 pages
+// competing for a single query, so Google split the authority and ranked none
+// of them — 28 impressions and 0 clicks on "grüns vs ritual multivitamin".
+//
+// baseTopic() strips the template wrapper so variants collapse together;
+// cleanTitle() turns the survivor into something a human would click.
+// ---------------------------------------------------------------------------
+
+function baseTopic(raw: string): string {
+  let t = raw.trim();
+  t = t.replace(/^Complete guide:\s*/i, "");
+  t = t.replace(/^Does Grüns help with\s*/i, "");
+  t = t.replace(/^Why Grüns for\s*/i, "");
+  t = t.replace(/^Grüns solution for\s*/i, "");
+  t = t.replace(/\s*and Grüns\s*$/i, "");
+  t = t.replace(/\?+$/, "");
+  // the source list double-prefixes a lot of entries: "for for dietitians"
+  t = t.replace(/\bfor\s+for\b/gi, "for");
+  t = t.replace(/\s+/g, " ").trim();
+  return t.toLowerCase();
+}
+
+const SMALL_WORDS = new Set(["a", "an", "and", "as", "at", "but", "by", "for",
+  "from", "in", "of", "on", "or", "the", "to", "vs", "with"]);
+
+function titleCase(s: string): string {
+  const words = s.split(" ");
+  return words.map((w, i) => {
+    const lower = w.toLowerCase();
+    if (i > 0 && i < words.length - 1 && SMALL_WORDS.has(lower)) return lower;
+    if (/^gr[üu]ns$/i.test(w)) return "Grüns";
+    return w.charAt(0).toUpperCase() + w.slice(1);
+  }).join(" ");
+}
+
+function cleanTitle(raw: string): string {
+  let t = baseTopic(raw);
+  // "for athletes: performance and recovery" -> "Grüns for Athletes: Performance and Recovery"
+  // Lead with the brand so the title matches how people actually search
+  // ("grüns gummies side effects"), rather than tacking a clause on the end.
+  if (!/gr[üu]ns/i.test(t)) t = "Grüns " + t;
+
+  // Title-case each colon-separated clause independently.
+  t = t.split(":").map((part) => titleCase(part.trim())).join(": ");
+  return t.replace(/\s+/g, " ").trim();
+}
+
+/** One clean, non-competing title per underlying topic. */
+function dedupedTopics(raws: (string | undefined)[]): string[] {
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const raw of raws) {
+    if (!raw) continue;
+    const base = baseTopic(raw);
+    if (!base || seen.has(base)) continue;
+    seen.add(base);
+    out.push(cleanTitle(raw));
+  }
+  return out;
+}
+
 async function generateArticle(groq: Groq, cerebras: Cerebras, topic: string, index: number): Promise<void> {
   const slug = slugify(topic);
   const outPath = path.join("content", "articles", `${slug}.json`);
@@ -2388,7 +2454,7 @@ Article title: ${topic}`;
     if (useGroq) {
       try {
         const completion = await groq.chat.completions.create({
-          model: "llama-3.3-70b-versatile",
+          model: "openai/gpt-oss-120b",
           messages: [{ role: "user", content: prompt }],
           max_tokens: 2000,
           temperature: 0.8,
@@ -2451,7 +2517,9 @@ async function main() {
 
   // Parse CLI args: --limit N
   const limitArg = process.argv.find(arg => arg.startsWith("--limit"));
-  const limit = limitArg ? parseInt(limitArg.split("=")[1]) : ARTICLE_TOPICS.length;
+  const TOPICS = dedupedTopics(ARTICLE_TOPICS);
+  const limit = limitArg ? parseInt(limitArg.split("=")[1]) : TOPICS.length;
+  console.log(`${ARTICLE_TOPICS.length} raw topics -> ${TOPICS.length} after collapsing duplicate phrasings`);
 
   const groqKey = process.env.GROQ_API_KEY;
   const cerebrasKey = process.env.CEREBRAS_API_KEY;
@@ -2466,8 +2534,8 @@ async function main() {
   fs.mkdirSync(path.join("content", "articles"), { recursive: true });
   console.log(`Generating up to ${limit} new articles...`);
   let generated = 0;
-  for (let i = 0; i < ARTICLE_TOPICS.length && generated < limit; i++) {
-    const topic = ARTICLE_TOPICS[i];
+  for (let i = 0; i < TOPICS.length && generated < limit; i++) {
+    const topic = TOPICS[i];
     if (!topic) continue;
     const existingPath = path.join("content", "articles", `${slugify(topic)}.json`);
     const existing = fs.existsSync(existingPath) && JSON.parse(fs.readFileSync(existingPath, "utf-8"));
