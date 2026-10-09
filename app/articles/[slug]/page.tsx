@@ -4,7 +4,8 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 
 const AFFILIATE = "https://www.gruns.co/pages/vip?snowball=NICK67621";
-const SITE = "https://grunsgummies.site";
+import { SITE_URL } from "@/lib/site";
+const SITE = SITE_URL;
 
 interface Props { params: Promise<{ slug: string }> }
 

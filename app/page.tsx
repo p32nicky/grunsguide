@@ -14,16 +14,16 @@ const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: "Grüns Guide",
-  url: "https://grunsgummies.site",
+  url: "https://grunssite.vercel.app",
   description: "Honest reviews and guides for Grüns superfoods greens gummies.",
-  potentialAction: { "@type": "SearchAction", target: "https://grunsgummies.site/?q={search_term_string}", "query-input": "required name=search_term_string" },
+  potentialAction: { "@type": "SearchAction", target: "https://grunssite.vercel.app/?q={search_term_string}", "query-input": "required name=search_term_string" },
 };
 
 const orgJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "Grüns Guide",
-  url: "https://grunsgummies.site",
+  url: "https://grunssite.vercel.app",
 };
 
 const faqJsonLd = {

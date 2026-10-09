@@ -5,7 +5,7 @@ import ExitPopup from "./components/ExitPopup";
 import "./globals.css";
 
 const geist = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const SITE_URL = "https://grunsgummies.site";
+import { SITE_URL } from "@/lib/site";
 const AFFILIATE = "https://www.gruns.co/pages/vip?snowball=NICK67621";
 
 export const metadata: Metadata = {
