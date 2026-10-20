@@ -31,7 +31,9 @@ if not all([REDDIT_CLIENT_ID, REDDIT_CLIENT_SECRET, REDDIT_USERNAME, REDDIT_PASS
                      "REDDIT_PASSWORD environment variables (do not hardcode credentials).")
 
 SUBREDDIT      = "Grunsgummies"
-SITE_BASE      = "https://grunsgummies.site"
+# Live site. NOT grunsgummies.site — that domain is parked/dead, so linking to
+# it sent every Reddit reader to a dead page.
+SITE_BASE      = "https://grunssite.vercel.app"
 AFFILIATE_LINK = "https://www.gruns.co/pages/vip?snowball=NICK67621"
 
 ARTICLES_DIR   = Path(__file__).parent.parent / "content" / "articles"
@@ -98,18 +100,17 @@ def seo_title(article: dict) -> str:
 
 def build_post_text(article: dict) -> str:
     """Build Reddit post body (selftext) from article data."""
-    title    = article.get("title", "")
-    meta     = article.get("metaDescription", "")
-    slug     = article.get("slug", "")
-    url      = f"{SITE_BASE}/articles/{slug}"
+    meta = article.get("metaDescription", "")
+    slug = article.get("slug", "")
 
     lines = []
     if meta:
         lines.append(meta)
     lines.append("")
-    lines.append(f"**Read the full article:** {url}")
-    lines.append("")
-    lines.append(f"---")
+    if slug:
+        lines.append(f"**Read the full article:** {SITE_BASE}/articles/{slug}")
+        lines.append("")
+        lines.append("---")
     lines.append(f"*Try Grüns VIP →* {AFFILIATE_LINK}")
 
     return "\n".join(lines)
