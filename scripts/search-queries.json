@@ -1,0 +1,271 @@
+{
+  "_comment": "Reddit post titles matched to REAL Google Search Console queries for the Gruns site. Reddit ranks well in Google, so a post titled like the query can capture that search directly. 'match' tokens must ALL appear in the article slug+title+keywords for the title to be used - this keeps the title honest about what the post links to. 'impressions' is the GSC figure that justified the entry, for prioritising later.",
+  "queries": [
+    {
+      "title": "Can you take Grüns while breastfeeding?",
+      "match": [
+        "breastfeed"
+      ],
+      "impressions": 52
+    },
+    {
+      "title": "Grüns vs Ritual multivitamin — which is actually better?",
+      "match": [
+        "ritual"
+      ],
+      "impressions": 32
+    },
+    {
+      "title": "Grüns Kids vs adult — what's the difference?",
+      "match": [
+        "kid"
+      ],
+      "impressions": 34
+    },
+    {
+      "title": "Grüns gummies side effects — what to actually expect",
+      "match": [
+        "side-effect"
+      ],
+      "impressions": 25
+    },
+    {
+      "title": "Does Grüns have creatine?",
+      "match": [
+        "creatine"
+      ],
+      "impressions": 23
+    },
+    {
+      "title": "Is Grüns safe during pregnancy?",
+      "match": [
+        "pregnan"
+      ],
+      "impressions": 10
+    },
+    {
+      "title": "Grüns vs Goli — which greens gummy actually wins?",
+      "match": [
+        "goli"
+      ],
+      "impressions": 11
+    },
+    {
+      "title": "Are greens gummies keto-friendly?",
+      "match": [
+        "keto"
+      ],
+      "impressions": 9
+    },
+    {
+      "title": "Is there a Grüns discount code that actually works?",
+      "match": [
+        "discount"
+      ],
+      "impressions": 8
+    },
+    {
+      "title": "Do Grüns gummies cause diarrhea or stomach issues?",
+      "match": [
+        "diarrhea"
+      ],
+      "impressions": 7
+    },
+    {
+      "title": "Is Grüns FDA approved?",
+      "match": [
+        "fda"
+      ],
+      "impressions": 4
+    },
+    {
+      "title": "Grüns vs a regular multivitamin — worth switching?",
+      "match": [
+        "multivitamin"
+      ],
+      "impressions": 6
+    },
+    {
+      "title": "Where are Grüns gummies actually made?",
+      "match": [
+        "where-are"
+      ],
+      "impressions": 5
+    },
+    {
+      "title": "Grüns and kidney health — what to know",
+      "match": [
+        "kidney"
+      ],
+      "impressions": 5
+    },
+    {
+      "title": "Does Grüns actually contain magnesium?",
+      "match": [
+        "magnesium"
+      ],
+      "impressions": 2
+    },
+    {
+      "title": "Is Grüns legit, or just good marketing?",
+      "match": [
+        "legit"
+      ],
+      "impressions": 1
+    },
+    {
+      "title": "Are Grüns gummies vegan?",
+      "match": [
+        "are-gummies-vegan"
+      ],
+      "impressions": 1
+    },
+    {
+      "title": "Are Grüns gummies gluten-free?",
+      "match": [
+        "gluten"
+      ],
+      "impressions": 1
+    },
+    {
+      "title": "Are Grüns gummies non-GMO?",
+      "match": [
+        "non-gmo"
+      ],
+      "impressions": 1
+    },
+    {
+      "title": "Are Grüns gummies organic?",
+      "match": [
+        "are-gummies-organic"
+      ],
+      "impressions": 1
+    },
+    {
+      "title": "Is Grüns sugar-free? What sweeteners do they use?",
+      "match": [
+        "sugar-free"
+      ],
+      "impressions": 2
+    },
+    {
+      "title": "How many Grüns gummies should you take per day?",
+      "match": [
+        "per-day"
+      ],
+      "impressions": 1
+    },
+    {
+      "title": "How long until you actually feel Grüns working?",
+      "match": [
+        "how-long-until"
+      ],
+      "impressions": 1
+    },
+    {
+      "title": "Is Grüns worth the money? Real cost breakdown",
+      "match": [
+        "worth-it"
+      ],
+      "impressions": 4
+    },
+    {
+      "title": "Where can you actually buy Grüns?",
+      "match": [
+        "where-to-buy"
+      ],
+      "impressions": 3
+    },
+    {
+      "title": "How do you cancel a Grüns subscription?",
+      "match": [
+        "cancel"
+      ],
+      "impressions": 1
+    },
+    {
+      "title": "Grüns and heavy metals testing — what to know",
+      "match": [
+        "heavy-metals"
+      ],
+      "impressions": 1
+    },
+    {
+      "title": "Does Grüns actually help gut health?",
+      "match": [
+        "gut-health"
+      ],
+      "impressions": 2
+    },
+    {
+      "title": "Does Grüns help with bloating?",
+      "match": [
+        "reduce-bloating"
+      ],
+      "impressions": 2
+    },
+    {
+      "title": "Grüns vs Athletic Greens (AG1) — honest comparison",
+      "match": [
+        "athletic-greens"
+      ],
+      "impressions": 1
+    },
+    {
+      "title": "Grüns vs Bloom greens — which should you buy?",
+      "match": [
+        "bloom"
+      ],
+      "impressions": 1
+    },
+    {
+      "title": "Can kids have Grüns gummies?",
+      "match": [
+        "children"
+      ],
+      "impressions": 1
+    },
+    {
+      "title": "Does Grüns have good customer service?",
+      "match": [
+        "customer-service"
+      ],
+      "impressions": 1
+    },
+    {
+      "title": "What is Grüns' return policy?",
+      "match": [
+        "return-policy"
+      ],
+      "impressions": 1
+    },
+    {
+      "title": "How does Grüns shipping work?",
+      "match": [
+        "shipping"
+      ],
+      "impressions": 1
+    },
+    {
+      "title": "Is Grüns available internationally?",
+      "match": [
+        "internationally"
+      ],
+      "impressions": 1
+    },
+    {
+      "title": "Who actually makes Grüns gummies?",
+      "match": [
+        "who-makes"
+      ],
+      "impressions": 1
+    },
+    {
+      "title": "Can Grüns replace a multivitamin?",
+      "match": [
+        "can-replace"
+      ],
+      "impressions": 4
+    }
+  ]
+}

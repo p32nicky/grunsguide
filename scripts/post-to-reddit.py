@@ -69,8 +69,55 @@ def load_articles():
             print(f"  SKIP {f.name}: {e}")
     return articles
 
+def load_search_queries():
+    """Real Google queries this site gets impressions for (from Search Console).
+
+    Reddit ranks well in Google, so titling a post the way people actually
+    search can capture that traffic directly — far better than the generic
+    "X — honest review" shape, which matches nothing anyone types.
+    """
+    qf = Path(__file__).parent / "search-queries.json"
+    if not qf.exists():
+        return []
+    try:
+        return json.loads(qf.read_text(encoding="utf-8")).get("queries", [])
+    except Exception:
+        return []
+
+
+SEARCH_QUERIES = load_search_queries()
+
+
+def query_title(article: dict):
+    """Return a search-query-shaped title, but only if the article genuinely
+    covers that topic — every match token must be present. A title that
+    oversells what the post links to would just burn trust."""
+    # Match on slug + title only. The `keywords` field is broad SEO filler, so
+    # including it made generic tokens fire on unrelated articles — "vegan"
+    # matched an article about international shipping, "benefit" matched one
+    # about kale. A title that misdescribes what it links to burns more trust
+    # than a generic title ever would.
+    haystack = " ".join([
+        article.get("slug", ""),
+        article.get("title", ""),
+    ]).lower().replace(" ", "-")
+
+    best = None
+    for q in SEARCH_QUERIES:
+        tokens = q.get("match", [])
+        if tokens and all(t.lower() in haystack for t in tokens):
+            # prefer the highest-demand query this article can honestly answer
+            if best is None or q.get("impressions", 0) > best.get("impressions", 0):
+                best = q
+    return best["title"] if best else None
+
+
 def seo_title(article: dict) -> str:
     """Build a search-friendly title (people google 'gruns review reddit' etc)."""
+    matched = query_title(article)
+    if matched:
+        return matched[:300]
+
     title = article.get("title", article.get("slug", ""))
     # Strip clunky generated prefixes
     for prefix in ("Complete guide: ", "Why Grüns for ", "Grüns solution for ", "Does Grüns help with "):
@@ -133,9 +180,23 @@ def main():
     valid    = [a for a in articles if not a.get("error") and a.get("body", "").strip()]
     pending  = [a for a in valid if a.get("slug") not in posted]
 
+    # Post the articles that answer real Google queries FIRST, highest demand
+    # first. Default slug order buried the money queries ("Grüns vs Ritual",
+    # "Kids vs adult") hundreds of posts deep — months away at 5/day.
+    def demand(a):
+        t = query_title(a)
+        if not t:
+            return 0
+        for q in SEARCH_QUERIES:
+            if q["title"] == t:
+                return q.get("impressions", 1)
+        return 1
+    pending.sort(key=lambda a: (-demand(a), a.get("slug", "")))
+
+    matched = sum(1 for a in pending if query_title(a))
     print(f"Articles total:   {len(articles)}")
     print(f"Already posted:   {len(posted)}")
-    print(f"Pending to post:  {len(pending)}")
+    print(f"Pending to post:  {len(pending)}  ({matched} with search-query titles, queued first)")
 
     if not pending:
         print("Nothing to post. All done!")
