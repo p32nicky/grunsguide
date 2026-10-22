@@ -43,10 +43,11 @@ const nextConfig: NextConfig = {
         permanent: false, // 302 — keep flexible if the affiliate URL changes
       },
       {
-        // Cloaked cruise affiliate link — Reddit hard-blocks dpbolvw.net directly,
-        // but allows vercel.app, so cruise posts link here and redirect through.
+        // /cruise now forwards to our Cruise Compass site (which carries the
+        // dpbolvw affiliate links) instead of the raw affiliate link, so old
+        // posted links land on real content. Reddit allows vercel.app.
         source: "/cruise",
-        destination: "https://www.dpbolvw.net/click-1-17037666",
+        destination: "https://cruisereviews.vercel.app/",
         permanent: false,
       },
       {
