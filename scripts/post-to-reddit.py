@@ -88,6 +88,30 @@ def load_search_queries():
 SEARCH_QUERIES = load_search_queries()
 
 
+def used_query_titles() -> set:
+    """Query titles already posted, read back from the posting log.
+
+    Several articles can legitimately match the same query token (three
+    different articles match "worth-it"), which produced three posts titled
+    "Is Grüns worth the money?" — different links, but it reads as spam on the
+    subreddit page. Each query title is therefore used exactly once; later
+    matches fall back to the generic title.
+    """
+    used = set()
+    if POSTING_LOG.exists():
+        try:
+            for line in POSTING_LOG.read_text(encoding="utf-8").splitlines():
+                parts = line.split(",")
+                if len(parts) >= 3:
+                    used.add(parts[2].strip())
+        except Exception:
+            pass
+    return used
+
+
+_USED_TITLES = used_query_titles()
+
+
 def query_title(article: dict):
     """Return a search-query-shaped title, but only if the article genuinely
     covers that topic — every match token must be present. A title that
@@ -105,6 +129,8 @@ def query_title(article: dict):
     best = None
     for q in SEARCH_QUERIES:
         tokens = q.get("match", [])
+        if q["title"] in _USED_TITLES:
+            continue  # already posted under this title — don't duplicate it
         if tokens and all(t.lower() in haystack for t in tokens):
             # prefer the highest-demand query this article can honestly answer
             if best is None or q.get("impressions", 0) > best.get("impressions", 0):
@@ -227,6 +253,9 @@ def main():
     for i, article in enumerate(pending):
         slug  = article.get("slug", "")
         title = seo_title(article)
+        # Claim it immediately so a later article in this same run can't reuse
+        # it — the log isn't re-read mid-run.
+        _USED_TITLES.add(title)
         body  = build_post_text(article)
 
         print(f"[{i+1}/{len(pending)}] Posting: {title}")
