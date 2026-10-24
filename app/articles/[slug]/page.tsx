@@ -4,6 +4,28 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 
 const AFFILIATE = "https://www.gruns.co/pages/vip?snowball=NICK67621";
+
+// Zenbody (GLP-1) cross-sell. Shown ONLY on weight/metabolism-related articles —
+// a GLP-1 pitch on "are gummies gluten free?" is noise, and it would compete
+// with the Grüns CTA, which is the primary product on this site.
+const ZENBODY = "https://www.getzenbody.com/3LPDKC/7XDN2/";
+
+// Deliberately excludes "calorie" and "bmi" — those matched articles about
+// calories per serving and acai berries, where a GLP-1 pitch is a non-sequitur.
+const GLP1_RELEVANT = [
+  "weight", "glp-1", "glp1", "ozempic", "wegovy", "semaglutide", "mounjaro",
+  "zepbound", "appetite", "metabolism", "metabolic", "fat-loss", "obesity",
+  "hunger", "cravings", "meal-replacement",
+];
+
+function isGlp1Relevant(article: { slug?: string; title?: string; keywords?: string[] }) {
+  const hay = [
+    article.slug ?? "",
+    article.title ?? "",
+    (article.keywords ?? []).join(" "),
+  ].join(" ").toLowerCase();
+  return GLP1_RELEVANT.some((k) => hay.includes(k));
+}
 import { SITE_URL } from "@/lib/site";
 const SITE = SITE_URL;
 
@@ -97,6 +119,29 @@ export default async function ArticlePage({ params }: Props) {
           </a>
           <p className="text-xs text-green-300 mt-3">28 daily packs · Sugar free · #1 Greens Brand</p>
         </div>
+
+        {isGlp1Relevant(article) && (
+          <div className="mt-8 bg-teal-50 border border-teal-200 rounded-xl p-6">
+            <h2 className="text-lg font-bold text-gray-900 mb-2">
+              Looking into GLP-1s?
+            </h2>
+            <p className="text-sm text-gray-700 mb-4">
+              Greens gummies and GLP-1 medication solve different problems — one
+              is daily nutrition, the other is prescription appetite regulation.
+              If you&apos;re weighing up a GLP-1, Zenbody runs the consultation
+              and prescribing side online.
+            </p>
+            <a href={ZENBODY} target="_blank" rel="noopener noreferrer sponsored nofollow"
+              className="inline-block bg-teal-700 hover:bg-teal-800 text-white text-sm font-bold px-6 py-2.5 rounded-full transition-colors">
+              See if you qualify with Zenbody →
+            </a>
+            <p className="text-xs text-gray-500 mt-3">
+              Affiliate link — we may earn a commission at no extra cost to you.
+              Prescription treatment requires a medical consultation; this is not
+              medical advice.
+            </p>
+          </div>
+        )}
 
         {/* Taste Profile */}
         <div className="mt-12 mb-12">
