@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 
 const AFFILIATE = "https://www.gruns.co/pages/vip?snowball=NICK67621";
 
@@ -43,15 +42,7 @@ export default function ExitPopup() {
         </div>
 
         <div className="p-6">
-          <div className="flex justify-center mb-4">
-            <Image
-              src="/images/gruns-hero-product.jpg"
-              alt="Grüns Gummies"
-              width={150}
-              height={150}
-              className="w-32 h-auto rounded-lg"
-            />
-          </div>
+          {/* Brand product photo removed 2026-10-28 (IP notice) — unlicensed. */}
 
           <p className="text-sm text-gray-700 mb-4 text-center">
             <strong>Superfoods, prebiotics & vitamins</strong> in one delicious daily gummy. No chalky powders.

@@ -98,16 +98,12 @@ export default function HomePage() {
             </a>
             <p className="text-green-300 text-sm mt-3">Superfoods · Prebiotics · Vitamins · Sugar Free</p>
           </div>
-          <div className="flex-1 flex justify-center">
-            <Image
-              src="/images/gruns-hero-lede.webp"
-              alt="Grüns Gummies - Complete Nutrition Guide"
-              width={400}
-              height={300}
-              className="w-full max-w-md h-auto rounded-lg"
-              priority
-            />
-          </div>
+          {/* Brand product photography removed 2026-10-28 following an IP
+              notice from Marq Vision on behalf of Grüns Nutrition, Inc.
+              Do not re-add Grüns logos or product photos — they are the
+              brand's copyrighted assets and we have no licence for them.
+              Reviewing the product by name is fine; copying their images
+              is not. */}
         </div>
       </div>
 
@@ -140,19 +136,8 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Product Showcase */}
-      <div className="max-w-5xl mx-auto px-4 py-12">
-        <div className="overflow-hidden flex justify-center">
-          <Image
-            src="/images/gruns-hero-product.jpg"
-            alt="Grüns Gummies - Product"
-            width={900}
-            height={900}
-            className="w-full max-w-2xl h-auto"
-            priority
-          />
-        </div>
-      </div>
+      {/* Product showcase removed 2026-10-28 — used the brand's own product
+          photography without a licence. See note above. */}
 
       {/* Key Benefits */}
       <div className="max-w-5xl mx-auto px-4 py-12">
